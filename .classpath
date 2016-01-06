@@ -5,5 +5,15 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry kind="lib" path="httpclient/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="httpclient/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="httpclient/fluent-hc-4.5.1.jar"/>
+	<classpathentry kind="lib" path="httpclient/httpclient-4.5.1.jar"/>
+	<classpathentry kind="lib" path="httpclient/httpclient-cache-4.5.1.jar"/>
+	<classpathentry kind="lib" path="httpclient/httpclient-win-4.5.1.jar"/>
+	<classpathentry kind="lib" path="httpclient/httpcore-4.4.3.jar"/>
+	<classpathentry kind="lib" path="httpclient/httpmime-4.5.1.jar"/>
+	<classpathentry kind="lib" path="httpclient/jna-4.1.0.jar"/>
+	<classpathentry kind="lib" path="httpclient/jna-platform-4.1.0.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
