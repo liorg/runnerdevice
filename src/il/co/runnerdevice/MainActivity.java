@@ -43,7 +43,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-
+//http://avilyne.com/?p=105
 public class MainActivity extends ActionBarActivity {
 
     @Override
