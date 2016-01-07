@@ -8,17 +8,41 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-   
-       <TextView android:layout_width="fill_parent"
-      android:layout_height="wrap_content" android:text="Http GET Demo"/>
-     <Button 
-        android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="GET" android:id="@+id/my_button"/>
-   
-	<EditText 
-	    android:layout_margin="20dip" android:layout_width="fill_parent"
-	    android:layout_height="wrap_content" android:text="s"
-	    android:textSize="12sp"  android:id="@+id/my_edit"/>
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Http GET Demo" />
 
-	  
+    <EditText
+        android:id="@+id/my_edit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/my_button"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dip"
+        android:layout_marginTop="30dp"
+        android:text="s"
+        android:textSize="12sp" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/my_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/my_edit"
+        android:layout_alignTop="@+id/textView1"
+        android:layout_marginLeft="50dp"
+        android:text="GET" />
+
+ <Button
+     android:id="@+id/my_login"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_alignRight="@+id/my_edit"
+     android:layout_alignTop="@+id/textView1"
+     android:text="login" />
 
 </RelativeLayout>
