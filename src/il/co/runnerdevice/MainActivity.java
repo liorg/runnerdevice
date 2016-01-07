@@ -23,6 +23,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import org.json.JSONObject;
@@ -99,7 +100,7 @@ public class MainActivity  extends Activity implements OnClickListener {
     }
 private class LoginIo extends AsyncTask <Void, Void, String> {
 		
-		protected String getASCIIContentFromEntity(HttpEntity entity) throws IllegalStateException, IOException {
+		protected String getASCIIContentFromEntity(HttpEntity entity) throws IllegalStateException, IOException,JSONException {
 	       InputStream in = entity.getContent();
 	         StringBuffer out = new StringBuffer();
 	         int n = 1;
@@ -113,7 +114,8 @@ private class LoginIo extends AsyncTask <Void, Void, String> {
 		
 		@Override
 		protected String doInBackground(Void... params) {
-			 String text = null;
+			 String text = null; String token="";
+			 JSONObject  access_token= null;
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		    nameValuePairs.add(new BasicNameValuePair("grant_type", "password"));
 		    nameValuePairs.add(new BasicNameValuePair("username", "r"));
@@ -135,7 +137,13 @@ private class LoginIo extends AsyncTask <Void, Void, String> {
 			        HttpResponse response = httpClient.execute(httppost);
 			        Log.d("Response:" , response.toString());
 			        text = getASCIIContentFromEntity(response.getEntity());
-			    } catch (IOException e) {
+			        access_token = new JSONObject(text);
+			        token = access_token.getString("access_token");
+			    } 
+			    catch (JSONException eej) {
+			        eej.printStackTrace();
+			    }
+			    catch (IOException e) {
 			        e.printStackTrace();
 			    }
 			 /*
@@ -149,7 +157,7 @@ private class LoginIo extends AsyncTask <Void, Void, String> {
             	 return e.getLocalizedMessage();
              }
              */
-             return text;
+             return token;
 		}	
 		
 		protected void onPostExecute(String results) {
