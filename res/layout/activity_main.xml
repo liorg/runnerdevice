@@ -37,12 +37,28 @@
         android:layout_marginLeft="50dp"
         android:text="GET" />
 
- <Button
-     android:id="@+id/my_login"
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:layout_alignRight="@+id/my_edit"
-     android:layout_alignTop="@+id/textView1"
-     android:text="login" />
+  <TextView
+      android:id="@+id/tvToken"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignBottom="@+id/my_button"
+      android:layout_alignParentLeft="true"
+      android:text="token" />
 
+  <Button
+      android:id="@+id/my_login"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignRight="@+id/my_button"
+      android:layout_below="@+id/my_button"
+      android:text="login" />
+
+   <Button
+      android:id="@+id/my_order"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignRight="@+id/my_login"
+      android:layout_below="@+id/my_login"
+      android:text="get order" />
+  
 </RelativeLayout>

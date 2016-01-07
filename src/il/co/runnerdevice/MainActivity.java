@@ -47,6 +47,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -63,6 +64,7 @@ public class MainActivity  extends Activity implements OnClickListener {
         setContentView(R.layout.activity_main);
         findViewById(R.id.my_button).setOnClickListener(this);
         findViewById(R.id.my_login).setOnClickListener(this);
+        findViewById(R.id.my_order).setOnClickListener(this);
     }
     public void onClick(View arg0) {
     	Button b = null;
@@ -77,6 +79,12 @@ public class MainActivity  extends Activity implements OnClickListener {
         	  b.setClickable(false);
         	  new LoginIo().execute();
          break;
+         case R.id.my_order:
+       	  b = (Button)findViewById(R.id.my_order);
+       	  b.setClickable(false);
+       	  new OrderIO().execute();
+        break;
+         
  }
 }
 
@@ -162,7 +170,7 @@ private class LoginIo extends AsyncTask <Void, Void, String> {
 		 
 		protected void onPostExecute(String results) {
 			if (results!=null) {
-				EditText et = (EditText)findViewById(R.id.my_edit);
+				TextView et = (TextView)findViewById(R.id.tvToken);
 				et.setText(results);
 			}
 			Button b = (Button)findViewById(R.id.my_login);
@@ -208,6 +216,50 @@ private class LongRunningGetIO extends AsyncTask <Void, Void, String> {
 			b.setClickable(true);
 		}
     }
+private class OrderIO extends AsyncTask <Void, Void, String> {
+	
+	protected String getASCIIContentFromEntity(HttpEntity entity) throws IllegalStateException, IOException {
+       InputStream in = entity.getContent();
+         StringBuffer out = new StringBuffer();
+         int n = 1;
+         while (n>0) {
+             byte[] b = new byte[4096];
+             n =  in.read(b);
+             if (n>0) out.append(new String(b, 0, n));
+         }
+         return out.toString();
+    }
+	
+	@Override
+	protected String doInBackground(Void... params) {
+		 HttpClient httpClient = new DefaultHttpClient();
+		 HttpContext localContext = new BasicHttpContext();
+         HttpGet httpGet = new HttpGet("http://kipodeal.co.il:4545/api/orders");
+         httpGet.setHeader("Accept","application/json");
+         httpGet.setHeader("Content-Type","application/json");
+         TextView et = (TextView)findViewById(R.id.tvToken);
+         String token=et.getText().toString();
+         httpGet.setHeader("Authorization","Bearer "+token );
+         String text = null;
+         try {
+               HttpResponse response = httpClient.execute(httpGet, localContext);
+               HttpEntity entity = response.getEntity();
+               text = getASCIIContentFromEntity(entity);
+         } catch (Exception e) {
+        	 return e.getLocalizedMessage();
+         }
+         return text;
+	}	
+	
+	protected void onPostExecute(String results) {
+		if (results!=null) {
+			EditText et = (EditText)findViewById(R.id.my_edit);
+			et.setText(results);
+		}
+		Button b = (Button)findViewById(R.id.my_button);
+		b.setClickable(true);
+	}
+}
 }
 
 
