@@ -158,8 +158,8 @@ private class LoginIo extends AsyncTask <Void, Void, String> {
              }
              */
              return token;
-		}	
-		
+		}	 
+		 
 		protected void onPostExecute(String results) {
 			if (results!=null) {
 				EditText et = (EditText)findViewById(R.id.my_edit);
