@@ -33,13 +33,16 @@ public class Token_Fragment extends Fragment {
 		
 		
 		  TextView lblName = (TextView) rootView.findViewById(R.id.lblName);
-	        TextView lblEmail = (TextView) rootView.findViewById(R.id.lblEmail);
+		  //TextView lblRefresh = (TextView) rootView.findViewById(R.id.lblRefresh);
+		 // TextView lblCdate = (TextView) rootView.findViewById(R.id.lblCDate);
+		 // TextView lblEdate = (TextView) rootView.findViewById(R.id.lblEDate);
+		 // TextView lblRoles = (TextView) rootView.findViewById(R.id.lblRoles);
+	      //  TextView lblEmail = (TextView) rootView.findViewById(R.id.lblEmail);
 	        
 	        // Button logout
 	        btnLogout = (Button) rootView.findViewById(R.id.btnLogout);
 	        
 	        Toast.makeText(getActivity().getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
-	        
 	        
 	        /**
 	         * Call this function whenever you want to check user login
@@ -53,15 +56,17 @@ public class Token_Fragment extends Fragment {
 	        
 	        // name
 	        String name = user.get(SessionManager.KEY_NAME);
-	        
-	        // email
-	        String email = user.get(SessionManager.KEY_EMAIL);
-	        
+	        String cdate = user.get(SessionManager.KEY_CurrentDate);
+	        String edate = user.get(SessionManager.KEY_ExpiredDate);
+	        String roles = user.get(SessionManager.KEY_Roles);
+	        String refresh = user.get(SessionManager.KEY_Refresh);
 	        // displaying user data
 	        lblName.setText(Html.fromHtml("Name: <b>" + name + "</b>"));
-	        lblEmail.setText(Html.fromHtml("Email: <b>" + email + "</b>"));
-	        
-	        
+	       // lblRefresh.setText(Html.fromHtml("Email: <b>" + refresh + "</b>"));
+	      //  lblCdate.setText(Html.fromHtml("Current Date: <b>" + cdate + "</b>"));
+	       // lblCdate.setText(Html.fromHtml("Expired Date: <b>" + edate + "</b>"));
+	      //  lblRoles.setText(Html.fromHtml("Roles: <b>" + roles + "</b>"));
+	      //  lblEdate.setText(Html.fromHtml("Roles: <b>" + edate + "</b>"));
 	        /**
 	         * Logout button click event
 	         * */

@@ -3,7 +3,9 @@ package il.co.runnerdevice;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,19 +44,21 @@ public class SessionManager {
 	
 	// Shared pref mode
 	int PRIVATE_MODE = 0;
-	
+	String pattern = "yyyy-MM-dd'T'HH:mm:ssZ";
 	// Sharedpref file name
-	private static final String PREF_NAME = "AndroidHivePref";
+	private static final String PREF_NAME = "RunnerDevicePref";
 	
 	// All Shared Preferences Keys
 	private static final String IS_LOGIN = "IsLoggedIn";
-	
 	// User name (make variable public to access from outside)
 	public static final String KEY_NAME = "name";
-	
 	// Email address (make variable public to access from outside)
 	public static final String KEY_EMAIL = "email";
-	
+	public static final String KEY_Token = "token";
+	public static final String KEY_Refresh = "refresh_token";
+	public static final String KEY_CurrentDate = "currentdate";
+	public static final String KEY_ExpiredDate = "expireddate";
+	public static final String KEY_Roles = "roles";
 	// Constructor
 	public SessionManager(Context context){
 		this._context = context;
@@ -65,16 +69,17 @@ public class SessionManager {
 	/**
 	 * Create login session
 	 * */
-	public void createLoginSession(String name, String email){
+	public void createLoginSession(String name, String refresh,String currentdate,String expireddate,String token,String roles){
+		// Storing in pref
 		// Storing login value as TRUE
 		editor.putBoolean(IS_LOGIN, true);
-		
-		// Storing name in pref
 		editor.putString(KEY_NAME, name);
-		
-		// Storing email in pref
-		editor.putString(KEY_EMAIL, email);
-		
+		editor.putString(KEY_EMAIL, name);
+		editor.putString(KEY_Token, token);
+		editor.putString(KEY_Refresh, refresh);
+		editor.putString(KEY_CurrentDate, currentdate); 
+		editor.putString(KEY_ExpiredDate, expireddate);
+		editor.putString(KEY_Roles, roles); 
 		// commit changes
 		editor.commit();
 	}	
@@ -101,19 +106,41 @@ public class SessionManager {
 		
 	}
 	
-	
-	
 	/**
 	 * Get stored session data
 	 * */
+	public boolean  IsValidToken(){
+		Date  currentDate ;
+		Date  ExpiredDate;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String cDate=pref.getString(KEY_CurrentDate, null);
+		String eDate=pref.getString(KEY_ExpiredDate, null);
+		try {
+			  currentDate = format.parse(cDate);
+			  ExpiredDate = format.parse(eDate);
+			   if(currentDate.before(ExpiredDate))
+				   	return true;
+			   
+			 	return false;
+		    
+		} 
+		catch (Exception e) {
+		    e.printStackTrace();
+	return false;
+		}
+		
+		
+	}
 	public HashMap<String, String> getUserDetails(){
 		HashMap<String, String> user = new HashMap<String, String>();
 		// user name
 		user.put(KEY_NAME, pref.getString(KEY_NAME, null));
-		
-		// user email id
 		user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
-		
+		user.put(KEY_Token, pref.getString(KEY_Token, null));
+		user.put(KEY_Refresh, pref.getString(KEY_Refresh, null));
+		user.put(KEY_CurrentDate, pref.getString(KEY_CurrentDate, null));
+		user.put(KEY_ExpiredDate, pref.getString(KEY_ExpiredDate, null));
+		user.put(KEY_Roles, pref.getString(KEY_Roles, null));
 		// return user
 		return user;
 	}

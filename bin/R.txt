@@ -470,13 +470,13 @@ int id action_menu_presenter 0x7f090006
 int id action_mode_bar 0x7f09003e
 int id action_mode_bar_stub 0x7f09003d
 int id action_mode_close_button 0x7f090023
-int id action_settings 0x7f09006f
+int id action_settings 0x7f09006e
 int id activity_chooser_view_content 0x7f090024
 int id alertTitle 0x7f090030
 int id always 0x7f090019
 int id beginning 0x7f09001e
 int id btnLogin 0x7f090052
-int id btnLogout 0x7f09006e
+int id btnLogout 0x7f09006d
 int id buttonPanel 0x7f09002b
 int id cancel_action 0x7f09005f
 int id checkbox 0x7f090039
@@ -504,7 +504,6 @@ int id imageView1 0x7f09005c
 int id imageView2 0x7f09005d
 int id imageView3 0x7f09006b
 int id info 0x7f090069
-int id lblEmail 0x7f09006d
 int id lblName 0x7f09006c
 int id line1 0x7f090063
 int id line3 0x7f090067

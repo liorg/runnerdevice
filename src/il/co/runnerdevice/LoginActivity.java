@@ -154,9 +154,13 @@ public class LoginActivity extends Activity {
 				else{
 				String token = _access_token.getString("access_token");
 				String refresh_token = _access_token.getString("refresh_token");
-				
-				_session.createLoginSession(token, refresh_token);
-				//alert.showAlertDialog(LoginActivity.this, "Ok", "Ok", false);
+				String userName = _access_token.getString("userName");
+				String currentTime = _access_token.getString("m:currentTime");
+				String exTime = _access_token.getString("m:expiredOn");
+				String roles = _access_token.getString("roles");
+				//createLoginSession(String name, String refresh,String currentdate,String expireddate,String token,String roles)
+				_session.createLoginSession( userName, refresh_token,currentTime,exTime,token,roles);
+				alert.showAlertDialog(LoginActivity.this, "Ok", "Ok", false);
 				// Staring MainActivity
 				Intent i = new Intent(getApplicationContext(), MainActivity.class);
 				startActivity(i);
