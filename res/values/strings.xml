@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">עדכון משלוח</string>
@@ -13,10 +12,9 @@
     </string-array>
 
     <array name="icons">
-         <item>@drawable/ic_delivery</item>
+        <item>@drawable/ic_delivery</item>
         <item>@drawable/fb</item>
         <item>@drawable/gplus</item>
-       
         <item>@drawable/ic_people</item>
     </array>
 

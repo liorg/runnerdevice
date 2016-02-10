@@ -56,6 +56,7 @@ import android.widget.Button;
 
 //https://zackehh.com/andrest-simple-rest-client-implementation-android/
 //http://avilyne.com/?p=105
+/*
 public class MainActivityTest  extends Activity implements OnClickListener {
 
     @Override
@@ -165,6 +166,7 @@ private class LoginIo extends AsyncTask <Void, Void, String> {
             	 return e.getLocalizedMessage();
              }
              */
+/*
              return token;
 		}	 
 		 
@@ -263,4 +265,4 @@ private class OrderIO extends AsyncTask <Void, Void, String> {
 }
 
 
-
+*/
