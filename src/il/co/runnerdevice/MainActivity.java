@@ -133,13 +133,14 @@ Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLogged
 		Fragment fragment = null;
 		switch (position) {
 		case 0:
-			fragment = new FB_Fragment();
+			fragment = new TB_Fragment();
+			
 			break;
 		case 1:
 			fragment = new GP_Fragment();
 			break;
 		case 2:
-			fragment = new TB_Fragment();
+			fragment = new FB_Fragment();
 			break;
 		case 3:
 			fragment = new Token_Fragment();
