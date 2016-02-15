@@ -5,9 +5,11 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -83,6 +85,15 @@ public class SessionManager {
 		// commit changes
 		editor.commit();
 	}	
+	public void setRefreshToken( String refresh,String currentdate,String expireddate,String token){
+		
+		editor.putString(KEY_Token, token);
+		editor.putString(KEY_Refresh, refresh);
+		editor.putString(KEY_CurrentDate, currentdate); 
+		editor.putString(KEY_ExpiredDate, expireddate);
+		// commit changes
+		editor.commit();
+	}	
 	
 	/**
 	 * Check login method wil check user login status
@@ -93,17 +104,22 @@ public class SessionManager {
 		// Check login status
 		if(!this.isLoggedIn()){
 			// user is not logged in redirect him to Login Activity
-			Intent i = new Intent(_context, LoginActivity.class);
-			// Closing all the Activities
-			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			
-			// Add new Flag to start new Activity
-			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			
-			// Staring Login Activity
-			_context.startActivity(i);
+			RedirctToLogin();
 		}
 		
+	}
+	
+	public void RedirctToLogin()
+	{
+		Intent i = new Intent(_context, LoginActivity.class);
+		// Closing all the Activities
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		
+		// Add new Flag to start new Activity
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		
+		// Staring Login Activity
+		_context.startActivity(i);
 	}
 	
 	/**
@@ -111,24 +127,28 @@ public class SessionManager {
 	 * */
 	public boolean  IsValidToken(){
 		Date  currentDate ;
-		Date  ExpiredDate;
+		Date local = new Date();
+		Date  expiredDate;
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String cDate=pref.getString(KEY_CurrentDate, null);
 		String eDate=pref.getString(KEY_ExpiredDate, null);
+		
+	
+		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+		Calendar cal = Calendar.getInstance(TimeZone.getDefault());
+		local = cal.getTime();
+		
 		try {
-			  currentDate = format.parse(cDate);
-			  ExpiredDate = format.parse(eDate);
-			   if(currentDate.before(ExpiredDate))
+			 // currentDate =format.parse(cDate);
+			expiredDate = format.parse(eDate);
+			   if(local.before(expiredDate))
 				   	return true;
-			   
 			 	return false;
-		    
 		} 
 		catch (Exception e) {
 		    e.printStackTrace();
 	return false;
 		}
-		
 		
 	}
 	public HashMap<String, String> getUserDetails(){
@@ -145,6 +165,21 @@ public class SessionManager {
 		return user;
 	}
 	
+	public String GetToken(){
+		return  pref.getString(KEY_Token, null);
+	}
+	
+	public String GetCurrentDate(){
+		return  pref.getString(KEY_CurrentDate, null);
+	}
+	
+	public String GetExpiredDate(){
+		return  pref.getString(KEY_ExpiredDate, null);
+	}
+	
+	public String GetRefreshKeyToken(){
+		return  pref.getString(KEY_Refresh, null);
+	}
 	/**
 	 * Clear session details
 	 * */

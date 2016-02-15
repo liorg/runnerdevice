@@ -43,7 +43,7 @@ public class Token_Fragment extends Fragment {
 		
 		
 		  TextView lblName = (TextView) rootView.findViewById(R.id.lblName);
-		  //TextView lblRefresh = (TextView) rootView.findViewById(R.id.lblRefresh);
+		  TextView lblRefresh = (TextView) rootView.findViewById(R.id.lblRefreshToken);
 		 // TextView lblCdate = (TextView) rootView.findViewById(R.id.lblCDate);
 		 // TextView lblEdate = (TextView) rootView.findViewById(R.id.lblEDate);
 		 // TextView lblRoles = (TextView) rootView.findViewById(R.id.lblRoles);
@@ -64,7 +64,7 @@ public class Token_Fragment extends Fragment {
 	        String refresh = user.get(SessionManager.KEY_Refresh);
 	        // displaying user data
 	        lblName.setText(Html.fromHtml("Name: <b>" + name + "</b>"));
-	       // lblRefresh.setText(Html.fromHtml("Email: <b>" + refresh + "</b>"));
+	        lblRefresh.setText(Html.fromHtml("Refresh Token: <b>" + refresh + "</b>"));
 	      //  lblCdate.setText(Html.fromHtml("Current Date: <b>" + cdate + "</b>"));
 	       // lblCdate.setText(Html.fromHtml("Expired Date: <b>" + edate + "</b>"));
 	      //  lblRoles.setText(Html.fromHtml("Roles: <b>" + roles + "</b>"));
