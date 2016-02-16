@@ -68,12 +68,6 @@ public class MainActivity extends Activity {
         
 Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
         
-        
-        /**
-         * Call this function whenever you want to check user login
-         * This will redirect user to LoginActivity is he is not
-         * logged in
-         * */
         session.checkLogin();
         
         // get user data from session
@@ -149,12 +143,9 @@ Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLogged
 			
 			break;
 		case 1:
-			fragment = new GP_Fragment();
+			fragment = new About_Fragment();
 			break;
 		case 2:
-			fragment = new FB_Fragment();
-			break;
-		case 3:
 			fragment = new Token_Fragment();
 			break;
 		default:

@@ -55,10 +55,13 @@ public class MyShip_Fragment extends Fragment implements OnItemClickListener {
 	     ArrayList<ShipItemView> rowItems;
 	    ListView mylistview;
 	    ShipListAdaptor adapter ;
+	    
+	    
+	    
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		 rootView = inflater.inflate(R.layout.ship_fragment, container, false);
+		 rootView = inflater.inflate(R.layout.myship_fragment, container, false);
 
 		session = new SessionManager(getActivity().getApplicationContext());
 		Toast.makeText(getActivity().getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
@@ -97,7 +100,7 @@ public class MyShip_Fragment extends Fragment implements OnItemClickListener {
 		        JSONObject obj = jsonarray.getJSONObject(i);
 
 		        String name =obj.getString("Name");
-		        String number = obj.getString("ShipTypeIdName");
+		        String number = obj.getString("TitleDesc");
 		        String status =obj.getString("Status");
 		        
 

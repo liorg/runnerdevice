@@ -105,8 +105,7 @@ public class SessionManager {
 		if(!this.isLoggedIn()){
 			// user is not logged in redirect him to Login Activity
 			RedirctToLogin();
-		}
-		
+		}	
 	}
 	
 	public void RedirctToLogin()
@@ -114,10 +113,8 @@ public class SessionManager {
 		Intent i = new Intent(_context, LoginActivity.class);
 		// Closing all the Activities
 		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		
 		// Add new Flag to start new Activity
 		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		
 		// Staring Login Activity
 		_context.startActivity(i);
 	}
@@ -126,20 +123,16 @@ public class SessionManager {
 	 * Get stored session data
 	 * */
 	public boolean  IsValidToken(){
-		Date  currentDate ;
 		Date local = new Date();
 		Date  expiredDate;
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String cDate=pref.getString(KEY_CurrentDate, null);
 		String eDate=pref.getString(KEY_ExpiredDate, null);
 		
-	
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 		Calendar cal = Calendar.getInstance(TimeZone.getDefault());
 		local = cal.getTime();
 		
 		try {
-			 // currentDate =format.parse(cDate);
 			expiredDate = format.parse(eDate);
 			   if(local.before(expiredDate))
 				   	return true;
@@ -200,9 +193,6 @@ public class SessionManager {
 		_context.startActivity(i);
 	}
 	
-	/**
-	 * Quick check for login
-	 * **/
 	// Get Login State
 	public boolean isLoggedIn(){
 		return pref.getBoolean(IS_LOGIN, false);

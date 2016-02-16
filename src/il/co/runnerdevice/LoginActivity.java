@@ -160,7 +160,9 @@ public class LoginActivity extends Activity {
 				String roles = _access_token.getString("roles");
 				//createLoginSession(String name, String refresh,String currentdate,String expireddate,String token,String roles)
 				_session.createLoginSession( userName, refresh_token,currentTime,exTime,token,roles);
-				alert.showAlertDialog(LoginActivity.this, "Ok", "Ok", false);
+				Toast.makeText(getApplicationContext(), "המשתמש אומת" , Toast.LENGTH_LONG).show();
+			     
+				//alert.showAlertDialog(LoginActivity.this, "Ok", "Ok", false);
 				// Staring MainActivity
 				Intent i = new Intent(getApplicationContext(), MainActivity.class);
 				startActivity(i);

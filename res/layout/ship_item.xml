@@ -9,6 +9,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:contentDescription="desc"
+         android:layout_alignParentRight="true"
         android:paddingLeft="10dp"
         android:paddingRight="10dp" />
 
@@ -17,19 +18,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/profile_pic"
+        android:layout_toLeftOf="@+id/profile_pic"
         android:paddingBottom="10dp"
+        android:layout_below="@+id/status"
         android:text="txt"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/member_name"
-        android:layout_below="@+id/member_name"
+        android:layout_alignRight="@+id/member_name"
+  
         android:text="txt"
-        android:textSize="16sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/contact_type"
@@ -37,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/member_name"
         android:layout_alignBottom="@+id/member_name"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
         android:text="txt"
         android:textSize="16sp" />
 

@@ -3,18 +3,19 @@
     <string name="app_name">עדכון משלוח</string>
     <string name="action_settings">הגדרות</string>
     <string name="hello_world">רנר שליחויות</string>
-
+	 <string name="version">גרסא 1.0.0.0</string>
+	 <string name="about">מערכת עבור השליח</string>
+	 
     <string-array name="titles">
-          <item>משלוחים שלי</item>
-        <item>Facebook</item>
-          <item>Google-Plus</item>
-           <item>הגדרות</item>
+           <item>משלוחים שלי</item>
+           <item>עלינו</item>
+           <item>פרטי שליח</item>
     </string-array>
 
     <array name="icons">
         <item>@drawable/ic_delivery</item>
-        <item>@drawable/fb</item>
-        <item>@drawable/gplus</item>
+        <item>@drawable/ic_communities</item>
+       
         <item>@drawable/ic_people</item>
     </array>
 
