@@ -5,8 +5,12 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+//import android.app.Fragment;
+//import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTabHost;
+
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -93,7 +97,9 @@ public class MyShip_Fragment extends Fragment implements OnItemClickListener {
 	    Delivery_Fragment fragment=new Delivery_Fragment(ship);
 	    
 	    Toast.makeText(getActivity().getApplicationContext(), "" + member_name, Toast.LENGTH_SHORT).show();
+	//	FragmentManager fragmentManager = getFragmentManager();
 		FragmentManager fragmentManager = getFragmentManager();
+		
 		fragmentManager.beginTransaction()
 				.replace(R.id.frame_container, fragment).commit();
 	   }

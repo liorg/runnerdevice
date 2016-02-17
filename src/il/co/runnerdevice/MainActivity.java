@@ -5,9 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
+//import android.app.Activity;
+//import android.app.Fragment;
+//import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTabHost;
+
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -25,7 +30,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
+//import android.app.Activity;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.View;
@@ -34,7 +39,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
 	String[] menutitles;
 	TypedArray menuIcons;
@@ -153,7 +158,7 @@ Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLogged
 		}
 
 		if (fragment != null) {
-			FragmentManager fragmentManager = getFragmentManager();
+			android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.frame_container, fragment).commit();
 
