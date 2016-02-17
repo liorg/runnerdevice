@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -46,10 +47,10 @@ import android.widget.ListView;
 //http://www.tutorialsbuzz.com/2014/03/watsapp-custom-listview-imageview-textview-baseadapter.html
 public class MyShip_Fragment extends Fragment implements OnItemClickListener {
 	SessionManager session;
-	  String[] member_names;
-	    TypedArray profile_pics;
-	    String[] statues;
-	    String[] contactType;
+	   // String[] member_names;
+	  //  TypedArray profile_pics;
+	   // String[] statues;
+	   // String[] contactType;
 	    AlertDialogManager alert = new AlertDialogManager();
 	    View rootView;
 	     ArrayList<ShipItemView> rowItems;
@@ -64,7 +65,7 @@ public class MyShip_Fragment extends Fragment implements OnItemClickListener {
 		 rootView = inflater.inflate(R.layout.myship_fragment, container, false);
 
 		session = new SessionManager(getActivity().getApplicationContext());
-		Toast.makeText(getActivity().getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
+		Toast.makeText(getActivity().getApplicationContext(), "טוען נתונים ", Toast.LENGTH_LONG).show();
 	    
 	    session.checkLogin();
 	    rowItems=new ArrayList<ShipItemView>();
@@ -87,9 +88,14 @@ public class MyShip_Fragment extends Fragment implements OnItemClickListener {
 	   public void onItemClick(AdapterView<?> parent, View view, int position,
 	     long id) 
 	   {
-
-	    String member_name = rowItems.get(position).getMember_name();
+		   ShipItemView ship=  rowItems.get(position);
+	    String member_name = ship.getMember_name();
+	    Delivery_Fragment fragment=new Delivery_Fragment(ship);
+	    
 	    Toast.makeText(getActivity().getApplicationContext(), "" + member_name, Toast.LENGTH_SHORT).show();
+		FragmentManager fragmentManager = getFragmentManager();
+		fragmentManager.beginTransaction()
+				.replace(R.id.frame_container, fragment).commit();
 	   }
        
 	   public void FillGrid(JSONObject  data){
@@ -104,7 +110,7 @@ public class MyShip_Fragment extends Fragment implements OnItemClickListener {
 		        String status =obj.getString("Status");
 		        
 
-		        ShipItemView item = new ShipItemView(name, R.drawable.ic_send , number, status);
+		        ShipItemView item = new ShipItemView(name, R.drawable.ic_account , number, status);
 		        rowItems.add(item);
 		    }   
 	   } 
