@@ -44,6 +44,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -51,63 +52,63 @@ import android.widget.ListView;
 //http://www.tutorialsbuzz.com/2014/03/watsapp-custom-listview-imageview-textview-baseadapter.html
 public class MyShip_Fragment extends Fragment implements OnItemClickListener {
 	SessionManager session;
-	   // String[] member_names;
-	  //  TypedArray profile_pics;
-	   // String[] statues;
-	   // String[] contactType;
-	    AlertDialogManager alert = new AlertDialogManager();
-	    View rootView;
-	     ArrayList<ShipItemView> rowItems;
-	    ListView mylistview;
-	    ShipListAdaptor adapter ;
-	    
-	    
-	    
+	AlertDialogManager alert = new AlertDialogManager();
+	View rootView;
+	ArrayList<ShipItemView> rowItems;
+	ListView mylistview;
+    ShipListAdaptor adapter ;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		 rootView = inflater.inflate(R.layout.myship_fragment, container, false);
 
 		session = new SessionManager(getActivity().getApplicationContext());
-		Toast.makeText(getActivity().getApplicationContext(), "טוען נתונים ", Toast.LENGTH_LONG).show();
+		
 	    
 	    session.checkLogin();
-	    rowItems=new ArrayList<ShipItemView>();
+	    if(rowItems==null || rowItems.isEmpty())
+	    	rowItems=new ArrayList<ShipItemView>();
 	    
-		new GetShips(session,this).execute();
+	    RetryRefreshData(session);
 	 
-	   
 	    mylistview = (ListView)rootView.findViewById(R.id.listvw);
 	    adapter = new ShipListAdaptor(this.getActivity(), rowItems);
 	    
 	    mylistview.setAdapter(adapter);
-	    // Set the emptyView to the ListView
+	    //// Set the emptyView to the ListView
+	    TextView emptyField=(TextView)rootView.findViewById(R.id.emptyElement);
+	    if(rowItems==null || rowItems.isEmpty()){
+	    emptyField.setText("טוען נתונים...");
 	    mylistview.setEmptyView(rootView.findViewById(R.id.emptyElement));
+	    }
 	    mylistview.setOnItemClickListener(this);
 	   
 	    return rootView;
 	   }
        
-	   @Override
-	   public void onItemClick(AdapterView<?> parent, View view, int position,
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
 	     long id) 
 	   {
-		   ShipItemView ship=  rowItems.get(position);
+		ShipItemView ship = rowItems.get(position);
 	    String member_name = ship.getMember_name();
-	    Delivery_Fragment fragment=new Delivery_Fragment(ship);
+	    ShipItem_Fragment fragment = new ShipItem_Fragment(ship);
 	    
 	    Toast.makeText(getActivity().getApplicationContext(), "" + member_name, Toast.LENGTH_SHORT).show();
-	//	FragmentManager fragmentManager = getFragmentManager();
 		FragmentManager fragmentManager = getFragmentManager();
-		
-		fragmentManager.beginTransaction()
-				.replace(R.id.frame_container, fragment).commit();
+		fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
 	   }
        
-	   public void FillGrid(JSONObject  data){
+	public void FillGrid(JSONObject  data){
+		   TextView emptyField=(TextView)rootView.findViewById(R.id.emptyElement);
+		  
 		    rowItems=new ArrayList<ShipItemView>();
 		    try{
 		    JSONArray jsonarray = data.getJSONArray("Model");
+		    if(jsonarray==null || jsonarray.length()==0){
+		    	 emptyField.setText("א");
+		    }
 		    for(int i=0; i<jsonarray.length(); i++){
 		        JSONObject obj = jsonarray.getJSONObject(i);
 
@@ -115,7 +116,6 @@ public class MyShip_Fragment extends Fragment implements OnItemClickListener {
 		        String number = obj.getString("TitleDesc");
 		        String status =obj.getString("Status");
 		        
-
 		        ShipItemView item = new ShipItemView(name, R.drawable.ic_account , number, status);
 		        rowItems.add(item);
 		    }   
@@ -123,12 +123,23 @@ public class MyShip_Fragment extends Fragment implements OnItemClickListener {
 	    catch (JSONException eej) 
 	    {
 	        eej.printStackTrace();
+	        //Log.e(eej);
 	    }
 		 adapter.updateAdapter(rowItems);
 	   }
 
-	   
-	   public class GetShips extends AsyncTask <Void, Void, Void> {
+	public void RefreshData(SessionManager session){
+		   new GetShips(session,this).execute();
+	   }
+	
+	public void RetryRefreshData(SessionManager session){
+		   if(rowItems==null || rowItems.isEmpty()){
+			   RefreshData(session);
+		   }
+		   
+	   }
+	  
+     public class GetShips extends AsyncTask <Void, Void, Void> {
 			
 	    	SessionManager _session;
 	        ProgressDialog _dialog;
@@ -142,6 +153,7 @@ public class MyShip_Fragment extends Fragment implements OnItemClickListener {
 	         @Override
 	         protected void onPreExecute()
 	         {
+	        	 Toast.makeText(getActivity().getApplicationContext(), "טוען נתונים ", Toast.LENGTH_LONG).show();
 	             super.onPreExecute();
 	            // _dialog = ProgressDialog.show(getActivity(), "נא המתן", "נא המתן שיתבצע התהליך", true, false);
 	         }

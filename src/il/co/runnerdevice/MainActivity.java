@@ -139,12 +139,19 @@ Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLogged
 		}
 
 	}
-
+	MyShip_Fragment fragmentShip=null;
 	private void updateDisplay(int position) {
 		Fragment fragment = null;
 		switch (position) {
 		case 0:
-			fragment = new MyShip_Fragment();
+			//if (fragment ==null || fragment.getClass().isInstance(MyShip_Fragment.class) ) {
+				//fragment = new MyShip_Fragment();
+				//}
+			if(fragmentShip==null){
+				fragmentShip=new MyShip_Fragment();
+			//	fragmentShip.RetryRefreshData(session);
+			}
+			fragment=(MyShip_Fragment)fragmentShip;
 			
 			break;
 		case 1:

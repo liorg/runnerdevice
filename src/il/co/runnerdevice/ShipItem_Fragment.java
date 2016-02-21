@@ -18,13 +18,13 @@ import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Delivery_Fragment  extends Fragment {
+public class ShipItem_Fragment  extends Fragment {
 	ShipItemView shipItem;
 	SessionManager session;
 	   View rootView;
 	   private FragmentTabHost mTabHost;
 
-	public Delivery_Fragment(ShipItemView shipItemView){
+	public ShipItem_Fragment(ShipItemView shipItemView){
 		shipItem=shipItemView;
 	
 	}
@@ -32,7 +32,7 @@ public class Delivery_Fragment  extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) 
 	{
-		 rootView = inflater.inflate(R.layout.tabs, container, false);
+		 rootView = inflater.inflate(R.layout.shipitem_fragment, container, false);
 
 		session = new SessionManager(getActivity().getApplicationContext());
 		//Toast.makeText(getActivity().getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
@@ -48,11 +48,13 @@ public class Delivery_Fragment  extends Fragment {
 	    Bundle arguments = new Bundle();
         arguments.putString("status", status);
         
-        mTabHost.addTab(mTabHost.newTabSpec("fragmenta").setIndicator("Fragment A"),
-                Tab1Fragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("fragmentb").setIndicator("Fragment B"),
-        		Tab2Fragment.class,arguments);
+        mTabHost.addTab(mTabHost.newTabSpec("detail").setIndicator("פרטים"),
+                DetailFragment.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("status").setIndicator("עדכון סטאטוס"),
+        		StatusFragment.class,arguments);
         
+        mTabHost.addTab(mTabHost.newTabSpec("chat").setIndicator("הערות"),
+        		ChatFragment.class,arguments);
 	    mTabHost.setOnTabChangedListener(new OnTabChangeListener() {
 
 	        @Override

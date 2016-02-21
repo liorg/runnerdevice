@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class Tab2Fragment extends Fragment  implements OnClickListener{
+public class StatusFragment extends Fragment  implements OnClickListener{
 	ShipItemView shipItem;
 	SessionManager session;
 	//public Tab2Fragment(ShipItemView shipItemView,SessionManager sessionManager)
@@ -26,7 +26,7 @@ public class Tab2Fragment extends Fragment  implements OnClickListener{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-	    View v = inflater.inflate(R.layout.tab2, container, false);
+	    View v = inflater.inflate(R.layout.status_fragment, container, false);
 	    Button button=(Button)v.findViewById(R.id.btn_frag2);//
 	   TextView txt=(TextView)v.findViewById(R.id.textView2);//
 	    
