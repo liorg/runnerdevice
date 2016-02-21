@@ -61,6 +61,7 @@ public class SessionManager {
 	public static final String KEY_CurrentDate = "currentdate";
 	public static final String KEY_ExpiredDate = "expireddate";
 	public static final String KEY_Roles = "roles";
+	public static final String KEY_UserId= "userid";
 	// Constructor
 	public SessionManager(Context context){
 		this._context = context;
@@ -71,7 +72,7 @@ public class SessionManager {
 	/**
 	 * Create login session
 	 * */
-	public void createLoginSession(String name, String refresh,String currentdate,String expireddate,String token,String roles){
+	public void createLoginSession(String name, String refresh,String currentdate,String expireddate,String token,String roles,String userId){
 		// Storing in pref
 		// Storing login value as TRUE
 		editor.putBoolean(IS_LOGIN, true);
@@ -80,8 +81,9 @@ public class SessionManager {
 		editor.putString(KEY_Token, token);
 		editor.putString(KEY_Refresh, refresh);
 		editor.putString(KEY_CurrentDate, currentdate); 
-		editor.putString(KEY_ExpiredDate, expireddate);
+		editor.putString(KEY_UserId, expireddate);
 		editor.putString(KEY_Roles, roles); 
+		editor.putString(KEY_Roles, userId); 
 		// commit changes
 		editor.commit();
 	}	
@@ -154,12 +156,17 @@ public class SessionManager {
 		user.put(KEY_CurrentDate, pref.getString(KEY_CurrentDate, null));
 		user.put(KEY_ExpiredDate, pref.getString(KEY_ExpiredDate, null));
 		user.put(KEY_Roles, pref.getString(KEY_Roles, null));
+		user.put(KEY_UserId, pref.getString(KEY_UserId, null));
 		// return user
 		return user;
 	}
 	
 	public String GetToken(){
 		return  pref.getString(KEY_Token, null);
+	}
+	
+	public String GetUserId(){
+		return  pref.getString(KEY_UserId, null);
 	}
 	
 	public String GetCurrentDate(){

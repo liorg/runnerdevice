@@ -156,10 +156,11 @@ public class LoginActivity extends Activity {
 				String refresh_token = _access_token.getString("refresh_token");
 				String userName = _access_token.getString("userName");
 				String currentTime = _access_token.getString("m:currentTime");
+				String userId = _access_token.getString("m:userId");
 				String exTime = _access_token.getString("m:expiredOn");
 				String roles = _access_token.getString("roles");
 				//createLoginSession(String name, String refresh,String currentdate,String expireddate,String token,String roles)
-				_session.createLoginSession( userName, refresh_token,currentTime,exTime,token,roles);
+				_session.createLoginSession( userName, refresh_token,currentTime,exTime,token,roles,userId);
 				Toast.makeText(getApplicationContext(), "המשתמש אומת" , Toast.LENGTH_LONG).show();
 			     
 				//alert.showAlertDialog(LoginActivity.this, "Ok", "Ok", false);
