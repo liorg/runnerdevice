@@ -99,9 +99,9 @@ public class GCMIntentService extends GCMBaseIntentService {
         //notificationManager.notify(0, notification);
         
         
-        Notification.Builder builder = new Notification.Builder(context)
-        .setContentIntent(intent).setSmallIcon(icon).setContentTitle(title);
+        Notification.Builder builder = new Notification.Builder(context).setContentIntent(intent).setSmallIcon(icon).setContentTitle(title);
         notification = builder.build();
+        notificationManager.notify(0, notification);
     }
 
 }
