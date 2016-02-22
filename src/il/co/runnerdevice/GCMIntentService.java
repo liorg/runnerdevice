@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gcm.GCMBaseIntentService;
@@ -49,7 +50,9 @@ public class GCMIntentService extends GCMBaseIntentService {
     @Override
     protected void onMessage(Context context, Intent intent) {
         Log.i(TAG, "Received message");
-        String message = getString(R.string.gcm_message);
+        Bundle extras = intent.getExtras();
+        String body = extras.getString("data");
+        String message =body ;// getString(R.string.gcm_message);
         displayMessage(context, message);
         // notifies user
         generateNotification(context, message);
@@ -83,26 +86,21 @@ public class GCMIntentService extends GCMBaseIntentService {
      * Issues a notification to inform the user that server has sent a message.
      */
     private static void generateNotification(Context context, String message) {
-        int icon = R.drawable.ic_stat_gcm;
+        int icon = R.drawable.ic_launcher;
         long when = System.currentTimeMillis();
         NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
       //  Notification notification = new Notification(icon, message, when);
         String title = context.getString(R.string.app_name);
-        Intent notificationIntent = new Intent(context, DemoActivity.class);
+        Intent notificationIntent = new Intent(context, MainActivity.class);
+    //   notificationIntent.putExtra(CommonUtilities.NotifyMessage, "refresh");
         // set intent so it does not start a new activity
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent intent =
-                PendingIntent.getActivity(context, 0, notificationIntent, 0);
-        
-        //notification.setLatestEventInfo(context, title, message, intent);
-        // notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        //notificationManager.notify(0, notification);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent intent =   PendingIntent.getActivity(context, 0, notificationIntent, 0);
         
         Notification.Builder builder = new Notification.Builder(context).setContentIntent(intent).setSmallIcon(icon).setContentTitle(title).setContentText(message);
         Notification notification = builder.build();
-        notificationManager.notify(0, notification);
+        notificationManager.notify(2, notification);
     }
 
 }

@@ -30,6 +30,7 @@ public final class CommonUtilities {
      * Intent used to display a message in the screen.
      */
     static final String DISPLAY_MESSAGE_ACTION ="il.co.runnerdevice.DISPLAY_MESSAGE";
+    static final String NotifyMessage ="NotifyMessage";
 
     /**
      * Intent's extra that contains the message to be displayed.

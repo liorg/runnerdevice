@@ -79,7 +79,6 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		
 		checkNotNull(SERVER_URL, "SERVER_URL");
 	    checkNotNull(SENDER_ID, "SENDER_ID");
 	    // Make sure the device has the proper dependencies.
