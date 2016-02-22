@@ -81,14 +81,13 @@ public class SessionManager {
 		editor.putString(KEY_Token, token);
 		editor.putString(KEY_Refresh, refresh);
 		editor.putString(KEY_CurrentDate, currentdate); 
-		editor.putString(KEY_UserId, expireddate);
+		editor.putString(KEY_ExpiredDate, expireddate);
 		editor.putString(KEY_Roles, roles); 
-		editor.putString(KEY_Roles, userId); 
+		editor.putString(KEY_UserId, userId); 
 		// commit changes
 		editor.commit();
 	}	
 	public void setRefreshToken( String refresh,String currentdate,String expireddate,String token){
-		
 		editor.putString(KEY_Token, token);
 		editor.putString(KEY_Refresh, refresh);
 		editor.putString(KEY_CurrentDate, currentdate); 

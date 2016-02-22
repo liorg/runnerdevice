@@ -19,16 +19,12 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 public class ServerUtilities {
+	 private  static String USER_AGENT = "Mozilla/5.0";
 	  private static final int MAX_ATTEMPTS = 5;
 	    private static final int BACKOFF_MILLI_SECONDS = 2000;
 	    private static final Random random = new Random();
 
-	    /**
-	     * Register this account/device pair within the server.
-	     *
-	     * @return whether the registration succeeded or not.
-	     */
-	    static boolean register(final Context context, final String regId) {
+	    static boolean registerOld(final Context context, final String regId) {
 	        Log.i(CommonUtilities.TAG, "registering device (regId = " + regId + ")");
 	        String serverUrl = CommonUtilities.SERVER_URL + "/register";
 	        Map<String, String> params = new HashMap<String, String>();
@@ -43,6 +39,58 @@ public class ServerUtilities {
 	            	CommonUtilities.displayMessage(context, context.getString(
 	                        R.string.server_registering, i, MAX_ATTEMPTS));
 	                post(serverUrl, params);
+	                GCMRegistrar.setRegisteredOnServer(context, true);
+	                String message = context.getString(R.string.server_registered);
+	                CommonUtilities.displayMessage(context, message);
+	                return true;
+	            } catch (IOException e) {
+	                // Here we are simplifying and retrying on any error; in a real
+	                // application, it should retry only on unrecoverable errors
+	                // (like HTTP error code 503).
+	                Log.e(CommonUtilities.TAG, "Failed to register on attempt " + i, e);
+	                if (i == MAX_ATTEMPTS) {
+	                    break;
+	                }
+	                try {
+	                    Log.d(CommonUtilities.TAG, "Sleeping for " + backoff + " ms before retry");
+	                    Thread.sleep(backoff);
+	                } catch (InterruptedException e1) {
+	                    // Activity finished before we complete - exit.
+	                    Log.d(CommonUtilities.TAG, "Thread interrupted: abort remaining retries!");
+	                    Thread.currentThread().interrupt();
+	                    return false;
+	                }
+	                // increase backoff exponentially
+	                backoff *= 2;
+	            }
+	        }
+	        String message = context.getString(R.string.server_register_error,
+	                MAX_ATTEMPTS);
+	        CommonUtilities.displayMessage(context, message);
+	        return false;
+	    }
+	    
+	    /**
+	     * Register this account/device pair within the server.
+	     *
+	     * @return whether the registration succeeded or not.
+	     */
+	    static boolean register(final Context context, final String regId,String userid) 
+	    {
+	        Log.i(CommonUtilities.TAG, "registering device (regId = " + regId + ")");
+	        String serverUrl = CommonUtilities.SERVER_URL ;
+	        Map<String, String> params = new HashMap<String, String>();
+	        params.put("regId", regId);
+	        long backoff = BACKOFF_MILLI_SECONDS + random.nextInt(1000);
+	        // Once GCM returns a registration id, we need to register it in the
+	        // demo server. As the server might be down, we will retry it a couple
+	        // times.
+	        for (int i = 1; i <= MAX_ATTEMPTS; i++) {
+	            Log.d(CommonUtilities.TAG, "Attempt #" + i + " to register");
+	            try {
+	            	CommonUtilities.displayMessage(context, context.getString(
+	                        R.string.server_registering, i, MAX_ATTEMPTS));
+	            	send(serverUrl,regId, userid);
 	                GCMRegistrar.setRegisteredOnServer(context, true);
 	                String message = context.getString(R.string.server_registered);
 	                CommonUtilities.displayMessage(context, message);
@@ -99,7 +147,49 @@ public class ServerUtilities {
 	            CommonUtilities.displayMessage(context, message);
 	        }
 	    }
-
+	    
+	    private static void send(String endpoint,String regid,String userid )
+	            throws IOException {
+	        URL url;
+	    	String urlparam = endpoint+"?d="+regid+"&u="+userid;
+	        try {
+	            url = new URL(urlparam);
+	        } catch (MalformedURLException e) {
+	            throw new IllegalArgumentException("invalid url: " + endpoint);
+	        }
+	       
+	        HttpURLConnection conn = null;
+	        try {
+	            conn = (HttpURLConnection) url.openConnection();
+	            conn.setDoOutput(true);
+	            conn.setUseCaches(false);
+	          
+	            conn.setRequestMethod("GET");
+	        
+	            conn.setRequestProperty("User-Agent", USER_AGENT);
+	            conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+	            
+	         // Send post request
+	            conn.setDoOutput(true);
+	    	
+	        	int responseCode = conn.getResponseCode();
+	        	if (responseCode != 200) {
+		              throw new IOException("Post failed with error code " + responseCode);
+		            }
+	            // post the request
+	           // OutputStream out = conn.getOutputStream();
+	           
+	            // handle the response
+	            int status = conn.getResponseCode();
+	            if (status != 200) {
+	              throw new IOException("Post failed with error code " + status);
+	            }
+	        } finally {
+	            if (conn != null) {
+	                conn.disconnect();
+	            }
+	        }
+	      }
 	    /**
 	     * Issue a POST request to the server.
 	     *
@@ -154,4 +244,5 @@ public class ServerUtilities {
 	            }
 	        }
 	      }
+	    
 }

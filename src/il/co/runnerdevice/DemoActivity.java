@@ -28,10 +28,11 @@ public class DemoActivity extends Activity {
 
     TextView mDisplay;
     AsyncTask<Void, Void, Void> mRegisterTask;
-
+	SessionManager m_session ;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        m_session = new SessionManager(getApplicationContext());
         checkNotNull(SERVER_URL, "SERVER_URL");
         checkNotNull(SENDER_ID, "SENDER_ID");
         // Make sure the device has the proper dependencies.
@@ -61,8 +62,9 @@ public class DemoActivity extends Activity {
 
                     @Override
                     protected Void doInBackground(Void... params) {
+                    	String userid=m_session.GetUserId();
                         boolean registered =
-                                ServerUtilities.register(context, regId);
+                                ServerUtilities.register(context, regId,userid);
                         // At this point all attempts to register with the app
                         // server failed, so we need to unregister the device
                         // from GCM - the app will try to register again when

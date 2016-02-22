@@ -479,13 +479,15 @@ int id action_menu_presenter 0x7f090006
 int id action_mode_bar 0x7f09003e
 int id action_mode_bar_stub 0x7f09003d
 int id action_mode_close_button 0x7f090023
-int id action_settings 0x7f09007a
+int id action_settings 0x7f09007c
 int id activity_chooser_view_content 0x7f090024
 int id alertTitle 0x7f090030
 int id always 0x7f090019
 int id beginning 0x7f09001e
 int id btnLogin 0x7f090055
 int id btnLogout 0x7f090079
+int id btnRegister 0x7f09007a
+int id btnUnRegister 0x7f09007b
 int id btn_frag2 0x7f090076
 int id buttonPanel 0x7f09002b
 int id cancel_action 0x7f090063
@@ -533,8 +535,8 @@ int id never 0x7f09001c
 int id none 0x7f09000f
 int id normal 0x7f09000b
 int id number 0x7f09005c
-int id options_clear 0x7f09007b
-int id options_exit 0x7f09007c
+int id options_clear 0x7f09007d
+int id options_exit 0x7f09007e
 int id parentPanel 0x7f09002d
 int id profile_pic 0x7f09006f
 int id progress_circular 0x7f090007

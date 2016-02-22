@@ -13,6 +13,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -38,6 +42,13 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+
+import com.google.android.gcm.GCMRegistrar;
+
+import static il.co.runnerdevice.CommonUtilities.DISPLAY_MESSAGE_ACTION;
+import static il.co.runnerdevice.CommonUtilities.EXTRA_MESSAGE;
+import static il.co.runnerdevice.CommonUtilities.SENDER_ID;
+import static il.co.runnerdevice.CommonUtilities.SERVER_URL;
 
 public class MainActivity extends FragmentActivity {
 
@@ -68,10 +79,21 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		
+		checkNotNull(SERVER_URL, "SERVER_URL");
+	    checkNotNull(SENDER_ID, "SENDER_ID");
+	    // Make sure the device has the proper dependencies.
+	    GCMRegistrar.checkDevice(this);
+	    // Make sure the manifest was properly set - comment out this line
+	    // while developing the app, then uncomment it when it's ready.
+	    GCMRegistrar.checkManifest(this);
+	    
+	    registerReceiver(mHandleMessageReceiver,
+                new IntentFilter(DISPLAY_MESSAGE_ACTION));    
 		  // Session class instance
         session = new SessionManager(getApplicationContext());
         
-Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
         
         session.checkLogin();
         
@@ -166,8 +188,7 @@ Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLogged
 
 		if (fragment != null) {
 			android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-			fragmentManager.beginTransaction()
-					.replace(R.id.frame_container, fragment).commit();
+			fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
 
 			// update selected item and title, then close the drawer
 			setTitle(menutitles[position]);
@@ -235,5 +256,30 @@ Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLogged
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
+	
+	 private void checkNotNull(Object reference, String name) {
+	        if (reference == null) {
+	            throw new NullPointerException(
+	                    getString(R.string.error_config, name));
+	        }
+	 }
+	 
+	 private final BroadcastReceiver mHandleMessageReceiver =
+	            new BroadcastReceiver() {
+	        @Override
+	        public void onReceive(Context context, Intent intent) {
+	            String newMessage = intent.getExtras().getString(EXTRA_MESSAGE);
+	            
+	            Token_Fragment fragment = new Token_Fragment();
+	            //fragment.setDisplay(newMessage);
+	          //  mDisplay.append(newMessage + "\n");
+	            //android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+				//fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+
+				// update selected item and title, then close the drawer
+				//setTitle("TOKEN");
+				//mDrawerLayout.closeDrawer(mDrawerList);
+	        }
+	    };
 
 }
