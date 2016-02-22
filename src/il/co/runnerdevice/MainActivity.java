@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v4.app.FragmentTransaction;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -87,8 +88,7 @@ public class MainActivity extends FragmentActivity {
 	    // while developing the app, then uncomment it when it's ready.
 	    GCMRegistrar.checkManifest(this);
 	    
-	    registerReceiver(mHandleMessageReceiver,
-                new IntentFilter(DISPLAY_MESSAGE_ACTION));    
+	    registerReceiver(mHandleMessageReceiver,  new IntentFilter(DISPLAY_MESSAGE_ACTION));    
 		  // Session class instance
         session = new SessionManager(getApplicationContext());
         
@@ -186,8 +186,10 @@ public class MainActivity extends FragmentActivity {
 		}
 
 		if (fragment != null) {
-			android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-			fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+			
+			switchContent(fragment);
+			//android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+			//fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
 
 			// update selected item and title, then close the drawer
 			setTitle(menutitles[position]);
@@ -268,17 +270,29 @@ public class MainActivity extends FragmentActivity {
 	        @Override
 	        public void onReceive(Context context, Intent intent) {
 	            String newMessage = intent.getExtras().getString(EXTRA_MESSAGE);
+	          //  fragmentShip=null;
 	            
-	            Token_Fragment fragment = new Token_Fragment();
-	            //fragment.setDisplay(newMessage);
-	          //  mDisplay.append(newMessage + "\n");
-	            //android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-				//fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
-
-				// update selected item and title, then close the drawer
-				//setTitle("TOKEN");
-				//mDrawerLayout.closeDrawer(mDrawerList);
+	            MyShip_Fragment fragment = (MyShip_Fragment)getSupportFragmentManager().findFragmentByTag(MyShip_Fragment.class.getSimpleName());
+	            if(fragment==null) // if the fragment  is not showing, show it
+	            {
+	            	fragment=new MyShip_Fragment();
+	            }
+	            fragment.RefreshData(session);
+	            switchContent(fragment);
+	            
+	         
+	         	
 	        }
 	    };
+	    
+	  //Switches views
+	    public void switchContent(final Fragment fragment) {
+	       getSupportFragmentManager()
+	       .beginTransaction()
+	       .replace(R.id.frame_container, fragment, fragment.getClass().getSimpleName())
+	       .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+	       .addToBackStack(fragment.getClass().getSimpleName())
+	       .commitAllowingStateLoss();
+	    }
 
 }

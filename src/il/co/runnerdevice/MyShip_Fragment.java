@@ -153,7 +153,7 @@ public class MyShip_Fragment extends Fragment implements OnItemClickListener {
 	         @Override
 	         protected void onPreExecute()
 	         {
-	        	 Toast.makeText(getActivity().getApplicationContext(), "טוען נתונים ", Toast.LENGTH_LONG).show();
+	        	 Toast.makeText(getActivity().getApplicationContext(), "טוען נתונים ...", Toast.LENGTH_LONG).show();
 	             super.onPreExecute();
 	            // _dialog = ProgressDialog.show(getActivity(), "נא המתן", "נא המתן שיתבצע התהליך", true, false);
 	         }
