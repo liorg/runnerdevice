@@ -270,8 +270,8 @@ public class MainActivity extends FragmentActivity {
 	        @Override
 	        public void onReceive(Context context, Intent intent) {
 	            String newMessage = intent.getExtras().getString(EXTRA_MESSAGE);
-	          //  fragmentShip=null;
-	            
+	            //throw new NullPointerException("return value is null at method AAA");
+	          
 	            MyShip_Fragment fragment = (MyShip_Fragment)getSupportFragmentManager().findFragmentByTag(MyShip_Fragment.class.getSimpleName());
 	            if(fragment==null) // if the fragment  is not showing, show it
 	            {
@@ -279,8 +279,8 @@ public class MainActivity extends FragmentActivity {
 	            }
 	            fragment.RefreshData(session);
 	            switchContent(fragment);
-	            
-	         
+	           
+	           
 	         	
 	        }
 	    };

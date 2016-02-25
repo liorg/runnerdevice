@@ -670,6 +670,11 @@ int string about 0x7f0a0018
 int string action_settings 0x7f0a0015
 int string already_registered 0x7f0a001a
 int string app_name 0x7f0a0014
+int string crash_dialog_comment_prompt 0x7f0a002d
+int string crash_dialog_ok_toast 0x7f0a002e
+int string crash_dialog_text 0x7f0a002c
+int string crash_dialog_title 0x7f0a002b
+int string crash_toast_text 0x7f0a002a
 int string error_config 0x7f0a0019
 int string gcm_deleted 0x7f0a0020
 int string gcm_error 0x7f0a001e
@@ -925,6 +930,7 @@ int style Theme_AppCompat_Light_Dialog_MinWidth 0x7f0b0102
 int style Theme_AppCompat_Light_DialogWhenLarge 0x7f0b00fc
 int style Theme_AppCompat_Light_NoActionBar 0x7f0b00fa
 int style Theme_AppCompat_NoActionBar 0x7f0b00f9
+int style Theme_Dialog 0x7f0b0135
 int style ThemeOverlay_AppCompat 0x7f0b0104
 int style ThemeOverlay_AppCompat_ActionBar 0x7f0b0107
 int style ThemeOverlay_AppCompat_Dark 0x7f0b0106
