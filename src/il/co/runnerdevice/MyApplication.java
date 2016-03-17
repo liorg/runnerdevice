@@ -9,7 +9,7 @@ import android.app.Application;
 
 @ReportsCrashes(
 	
-    formUri = "http://5.100.251.87:4545/logs/MobileLog.ashx",
+    formUri = "http://testkipo.kipodeal.co.il/logs/MobileLog.ashx",
     connectionTimeout=2222,
     mode = ReportingInteractionMode.TOAST,
     reportType = org.acra.sender.HttpSender.Type.JSON,
