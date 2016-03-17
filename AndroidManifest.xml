@@ -68,6 +68,11 @@
             android:label="User Login" >
         </activity>
         
+         <activity
+            android:name="il.co.runnerdevice.Controllers.LoginDisplayActivity"
+            android:label="User Login2" >
+        </activity>
+        
          <activity android:name="org.acra.CrashReportDialog"
         android:theme="@style/Theme.Dialog"
         android:process=":error_report"

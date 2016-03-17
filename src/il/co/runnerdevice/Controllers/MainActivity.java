@@ -2,9 +2,13 @@ package il.co.runnerdevice.Controllers;
 
 import il.co.runnerdevice.R;
 
+import il.co.runnerdevice.Api.ServiceGenerator;
 import il.co.runnerdevice.Api.ShipApi;
+import il.co.runnerdevice.Pojo.AccessToken;
 import il.co.runnerdevice.Pojo.WhoAmI;
 import il.co.runnerdevice.Pojo.WhoAmIResponse;
+import il.co.runnerdevice.Services.SessionService;
+import il.co.runnerdevice.Utils.CommonUtilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,17 +69,22 @@ import com.google.android.gcm.GCMRegistrar;
 //http://www.androidwarriors.com/2015/12/retrofit-20-android-example-web.html
 public class MainActivity  extends FragmentActivity {
 	// String url = "http://api.openweathermap.org";
-	  String url = "http://testkipo.kipodeal.co.il";
+	  String url = CommonUtilities.URL;
 	    TextView  txt_pressure;
-	    
+		// Session Manager Class
+		SessionService session;
+		
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_retrofit);
+		session = new SessionService(getApplicationContext()); 
+		
 		txt_pressure = (TextView) findViewById(R.id.txt_press);
-		  getReport();
+		  //getReport();
+		getWhoAmi(session);
 	}
 	
 	@Override
@@ -84,17 +93,21 @@ public class MainActivity  extends FragmentActivity {
 	      return true;
 	   }
 	
-	void getReport() {
-	
+	void getWhoAmi(SessionService session) {
+		
+		 final SessionService _session;
+		 _session=session;
 		 Retrofit retrofit = new Retrofit.Builder()
          .baseUrl(url)
          .addConverterFactory(GsonConverterFactory.create())
          .build();
 
-		 ShipApi service = retrofit.create(ShipApi.class);
-
-	      Call<WhoAmIResponse> call = service.WhoAmi();
-
+		// ShipApi service = retrofit.create(ShipApi.class);
+		// Call<WhoAmIResponse> call = service.WhoAmi();
+		String token="Bearer "+ _session.GetToken();
+		ShipApi loginService =  ServiceGenerator.createService(ShipApi.class, token);
+		 
+	      Call<WhoAmIResponse> call = loginService.WhoAmi();
 
 	      call.enqueue(new Callback<WhoAmIResponse>() {
 	        	 
@@ -108,14 +121,64 @@ public class MainActivity  extends FragmentActivity {
 						Response<WhoAmIResponse> arg1) {
 					// TODO Auto-generated method stub
 					 try {
+						 if(!arg1.body().isIsAuthenticated())
+							 //txt_pressure.setText("pressure  : NO Authenticated " );
+							 _session.RedirctToLogin();
+						 
+						 else{
+						 
 		                    String pressure = arg1.body().getModel().getFullName();
 		                    
 		                    txt_pressure.setText("pressure  :  " + pressure);
-		                } catch (Exception e) {
+		                
+						 }
+						 } 
+					 catch (Exception e) {
 		                    e.printStackTrace();
 		                }
 					
 				}
 	        	 });
     }
+
+	void setLogin() {
+		String username="r";
+	 	String password="1"; 
+	 	String client_id="ngAutoApp";
+	 	String grant_type="password";
+	 	
+		 Retrofit retrofit = new Retrofit.Builder()
+        .baseUrl(url)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build();
+
+		 ShipApi service = retrofit.create(ShipApi.class);
+		 
+		 	
+	      Call<AccessToken> call = service.Login(username, password, client_id, grant_type);
+
+
+	      call.enqueue(new Callback<AccessToken>() {
+	        	 
+				@Override
+				public void onFailure(Call<AccessToken> arg0, Throwable arg1) {
+					// TODO Auto-generated method stub
+					
+				}
+				@Override
+				public void onResponse(Call<AccessToken> arg0,
+						Response<AccessToken> arg1) {
+					// TODO Auto-generated method stub
+					 try {
+		                    String pressure = arg1.body().getMUserId();
+		                    txt_pressure.setText("pressure  :  " + pressure);
+		                } catch (Exception e) {
+		                    e.printStackTrace();
+		                }
+				}
+	        	 });
+   }
+
+	
+	
 }
