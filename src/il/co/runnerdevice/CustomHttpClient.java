@@ -1,5 +1,7 @@
 package il.co.runnerdevice;  
 
+import il.co.runnerdevice.Services.SessionService;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -51,6 +53,15 @@ public class CustomHttpClient {
 	}
 	
 	public static List<NameValuePair> GetRefreshToken(SessionManager session){
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+	    nameValuePairs.add(new BasicNameValuePair("grant_type", "refresh_token"));
+	    nameValuePairs.add(new BasicNameValuePair("refresh_token", session.GetRefreshKeyToken()));
+	
+	    nameValuePairs.add(new BasicNameValuePair("client_id", "ngAutoApp"));
+		return nameValuePairs;
+	}
+	
+	public static List<NameValuePair> GetRefreshToken(SessionService session){
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 	    nameValuePairs.add(new BasicNameValuePair("grant_type", "refresh_token"));
 	    nameValuePairs.add(new BasicNameValuePair("refresh_token", session.GetRefreshKeyToken()));

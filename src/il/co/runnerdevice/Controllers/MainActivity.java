@@ -105,7 +105,7 @@ public class MainActivity  extends FragmentActivity {
 		// ShipApi service = retrofit.create(ShipApi.class);
 		// Call<WhoAmIResponse> call = service.WhoAmi();
 		String token="Bearer "+ _session.GetToken();
-		ShipApi loginService =  ServiceGenerator.createService(ShipApi.class, token);
+		ShipApi loginService =  ServiceGenerator.createService(ShipApi.class, _session);
 		 
 	      Call<WhoAmIResponse> call = loginService.WhoAmi();
 
@@ -114,7 +114,6 @@ public class MainActivity  extends FragmentActivity {
 				@Override
 				public void onFailure(Call<WhoAmIResponse> arg0, Throwable arg1) {
 					// TODO Auto-generated method stub
-					
 				}
 				@Override
 				public void onResponse(Call<WhoAmIResponse> arg0,
@@ -122,15 +121,11 @@ public class MainActivity  extends FragmentActivity {
 					// TODO Auto-generated method stub
 					 try {
 						 if(!arg1.body().isIsAuthenticated())
-							 //txt_pressure.setText("pressure  : NO Authenticated " );
-							 _session.RedirctToLogin();
-						 
+							 txt_pressure.setText("pressure  : NO Authenticated " );
+							// _session.RedirctToLogin();
 						 else{
-						 
 		                    String pressure = arg1.body().getModel().getFullName();
-		                    
 		                    txt_pressure.setText("pressure  :  " + pressure);
-		                
 						 }
 						 } 
 					 catch (Exception e) {

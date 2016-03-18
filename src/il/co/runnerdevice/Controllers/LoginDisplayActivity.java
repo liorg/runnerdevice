@@ -24,7 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+//TODO: https://github.com/rdrobinson3/LoginAndSignupTutorial
 public class LoginDisplayActivity  extends Activity  {
 	// Email, password edittext
 		EditText txtUsername, txtPassword;
@@ -44,7 +44,17 @@ public class LoginDisplayActivity  extends Activity  {
 	        
 	        // Session Manager
 	        session = new SessionService(getApplicationContext());                
-	        
+	        if(session.isLoggedIn() && session.IsValidToken())
+	        {
+	        	Intent i = new Intent(this, MainActivity.class);
+	    		// Closing all the Activities
+	    		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	    		// Add new Flag to start new Activity
+	    		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	    		// Staring Login Activity
+	    		this.startActivity(i);
+	    		return;
+	        }
 	        // Email, Password input text
 	        txtUsername = (EditText) findViewById(R.id.txtUsername);
 	        txtPassword = (EditText) findViewById(R.id.txtPassword); 

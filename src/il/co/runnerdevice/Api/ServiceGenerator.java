@@ -1,8 +1,27 @@
 package il.co.runnerdevice.Api;
 
+import il.co.runnerdevice.CustomHttpClient;
+import il.co.runnerdevice.Pojo.AccessToken;
+import il.co.runnerdevice.Services.SessionService;
+
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.protocol.HttpContext;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.util.Base64;
+import android.util.Log;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -29,15 +48,97 @@ public class ServiceGenerator {
     }
 
 
-    public static <S> S createService(Class<S> serviceClass, final String authToken) {  
-        if (authToken != null) {
+    public static <S> S createService(Class<S> serviceClass, final SessionService session) {  
+       
+    	//final String authToken=session.GetToken();
+    	final String refrshToken=session.GetRefreshKeyToken();
+    	final boolean isValidToken=   session.IsValidToken();
+    	
+    	//if (authToken != null) {
         	httpClient.addInterceptor(new Interceptor() {
 
 				@Override
 				public Response intercept(Chain chain) throws IOException {
 					// TODO Auto-generated method stub
 					  Request original = chain.request();
+					  	//http://stackoverflow.com/questions/22450036/refreshing-oauth-token-using-retrofit-without-modifying-all-calls
 
+				        if (!isValidToken) 
+				        {
+				        	 List<NameValuePair> nameValuePairs=il.co.runnerdevice.CustomHttpClient.GetRefreshToken(session);
+							 
+							 HttpClient httpClient = new DefaultHttpClient();
+							 HttpContext localContext = new BasicHttpContext();
+					      
+					        
+					         HttpPost httpRefrshToken=new HttpPost("http://testkipo.kipodeal.co.il/token");
+					         httpRefrshToken.setHeader(HTTP.CONTENT_TYPE,"application/x-www-form-urlencoded;charset=UTF-8");
+							 try 
+							 {
+								 httpRefrshToken.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+							 } 
+							 catch (UnsupportedEncodingException e) 
+							 {
+							        e.printStackTrace();
+							 }
+							// Execute HTTP Post Request
+							 HttpClient httpClient2 = new DefaultHttpClient();
+							 HttpResponse response=null;
+							 
+							    try 
+							    {
+							        response = httpClient2.execute(httpRefrshToken);
+							        Log.d("Response RefreshToken:" , response.toString());
+							        String body = CustomHttpClient.GetASCIIContentFromEntity(response.getEntity());
+							        JSONObject access_token = new JSONObject(body);
+							        
+							        if(access_token.has("error")){
+							        	//isErr=true;
+							        	throw new IllegalArgumentException("token error");
+							        }
+							        
+							        String refresh_token=access_token.getString("refresh_token");
+							        String token=access_token.getString("access_token");
+							        String currentDate=access_token.getString("m:currentTime");
+							        String expiredDate=access_token.getString("m:expiredOn");
+							        session.setRefreshToken(refresh_token,currentDate ,expiredDate,token);
+							    } 
+							    catch (JSONException eej) {
+							        eej.printStackTrace();
+							    }
+							    catch (IOException e) {
+							        e.printStackTrace();
+							    }
+					         
+					        
+				        	/*
+				        	 Retrofit retrofit = new Retrofit.Builder()
+				             .baseUrl(API_BASE_URL)
+				             .addConverterFactory(GsonConverterFactory.create())
+				             .build();
+				        	ShipApi refeshTokenNow =retrofit.create(ShipApi.class);
+				        	
+				        	  String client_id="ngAutoApp";
+				  		 	String grant_type="grant_type";
+				        	 
+				        	Call<AccessToken> newTokenService= refeshTokenNow.RefreshToken(session.GetRefreshKeyToken(),client_id,grant_type);
+				        	retrofit2.Response<AccessToken> responseNewToken= newTokenService.execute();
+				            // get a new token (I use a synchronous Retrofit call)
+				        	AccessToken newToken=responseNewToken.body();
+				        	if(newToken==null){
+				        	session.RedirctToLogin();
+				        	}
+				        	*/
+				        	
+				            // create a new request and modify it accordingly using the new token
+				          //  _refresh_token=access_token.getString("refresh_token");
+						      //  _token=access_token.getString("access_token");
+						       // _currentDate=access_token.getString("m:currentTime");
+						       // _expiredDate=access_token.getString("m:expiredOn");
+						     //  session.setRefreshToken(newToken.getRefreshToken(),newToken.getMCurrentTime() ,newToken.getMExpiredOn(),newToken.getAccessToken());
+				        }
+				        final String authToken="Bearer "+ session.GetToken();
+				        
 	                    Request.Builder requestBuilder = original.newBuilder()
 	                        .header("Authorization", authToken)
 	                        .header("Accept", "application/json")
@@ -49,7 +150,7 @@ public class ServiceGenerator {
 				}
                 
              });
-        }
+       // }
         OkHttpClient client = httpClient.build();
         Retrofit retrofit = builder.client(client).build();
         return retrofit.create(serviceClass);
