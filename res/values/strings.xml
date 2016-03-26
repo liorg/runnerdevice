@@ -5,6 +5,14 @@
     <string name="hello_world">רנר שליחויות</string>
 	 <string name="version">גרסא 1.0.0.0</string>
 	 <string name="about">מערכת עבור השליח</string>
+	  <string name="label">Runner</string>
+
+  
+	 
+  <string name="signup_title">Create new account</string>
+  
+ <string name="login_label">Log in</string>
+	 
 	 
     <string-array name="titles">
            <item>משלוחים שלי</item>

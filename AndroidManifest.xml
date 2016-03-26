@@ -5,13 +5,16 @@
     
     android:versionName="1.0" >
 
+
+<uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+
   <!-- GCM requires Android SDK version 2.2 (API level 8) or above. -->
     <!-- The targetSdkVersion is optional, but it's always a good practice
          to target higher versions. -->
   
     
     <uses-permission android:name="android.permission.INTERNET" />
-
+    
       <!-- GCM requires a Google account. -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
@@ -51,10 +54,9 @@
         android:theme="@android:style/Theme.Holo.Light" >
        
  <activity
-            android:name="il.co.runnerdevice.Controllers.LoginDisplayActivity"
+         android:name="il.co.runnerdevice.Controllers.LoginDisplayActivity"
          android:label="@string/app_name" >
-            <intent-filter>
-             
+            <intent-filter>    
        <action android:name="android.intent.action.MAIN" />
        <category android:name="android.intent.category.LAUNCHER" />
       
@@ -76,6 +78,9 @@
             android:name="il.co.runnerdevice.Controllers.MainActivity"
             android:label="@string/app_name" >
         </activity>
+        
+        <activity android:label="@string/login_label" android:name=".authentication.AuthenticatorActivity"/>
+        
          <activity android:name="org.acra.CrashReportDialog"
         android:theme="@style/Theme.Dialog"
         android:process=":error_report"
@@ -114,6 +119,13 @@
             android:name="org.acra.sender.SenderService"
             android:exported="false"
             android:process=":acra" />
+        
+    	<service android:name=".Authentication.RunnerAuthenticatorService">
+			<intent-filter>
+				<action android:name="android.accounts.AccountAuthenticator"/>
+			</intent-filter>
+			<meta-data android:name="android.accounts.AccountAuthenticator" android:resource="@xml/authenticator"/>
+		</service>
         
     </application>
 </manifest>
