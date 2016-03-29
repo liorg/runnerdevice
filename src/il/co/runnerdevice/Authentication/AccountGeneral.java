@@ -23,5 +23,10 @@ public class AccountGeneral {
     public static final String AUTHTOKEN_TYPE_FULL_ACCESS = "Full access";
     public static final String AUTHTOKEN_TYPE_FULL_ACCESS_LABEL = "Full access to an Runner account";
 
+    public static final String CLIENT_ID = "ngAutoApp";
+    public static final String GRANT_TYPE_PWS = "password";
+    public static  final String PARAM_EXPIRED= "PEXPIRED";
+    public static  final String PARAM_USER_ID= "PUSER_ID";
+    public static  final String PARAM_ROLES= "PROLES";
 //    public static final ServerAuthenticate sServerAuthenticate = new ParseComServerAuthenticate();
 }

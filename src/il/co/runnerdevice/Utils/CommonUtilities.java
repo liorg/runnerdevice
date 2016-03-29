@@ -1,8 +1,14 @@
 package il.co.runnerdevice.Utils;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 
 /**
@@ -37,7 +43,10 @@ public final class CommonUtilities {
      * Intent's extra that contains the message to be displayed.
      */
 	public static final String EXTRA_MESSAGE = "message";
-
+	
+	public  static final String TAGC = "COMMON";
+	
+	public  static final String APP_NAME = "runnerdevice.co.il";
     /**
      * Notifies UI to display a message.
      * <p>
@@ -52,4 +61,30 @@ public final class CommonUtilities {
         intent.putExtra(EXTRA_MESSAGE, message);
         context.sendBroadcast(intent);
     }
+	
+	 public static boolean  IsValidToken(String eDate){
+	    	Log.d(APP_NAME, TAGC + "> IsValidToken ");
+			Date local = new Date();
+			Date  expiredDate;
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Log.d(APP_NAME, TAGC + "> IsValidToken =>local return "+local );
+			Log.d(APP_NAME, TAGC + "> IsValidToken =>expired Date return "+eDate );
+			//String eDate=pref.getString(KEY_ExpiredDate, null);
+			
+			TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+			Calendar cal = Calendar.getInstance(TimeZone.getDefault());
+			local = cal.getTime();
+			
+			try {
+				expiredDate = format.parse(eDate);
+				   if(local.before(expiredDate))
+					   	return true;
+				 	return false;
+			} 
+			catch (Exception e) {
+			    e.printStackTrace();
+		return false;
+			}
+			
+		}
 }

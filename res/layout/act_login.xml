@@ -13,6 +13,7 @@
               android:layout_height="wrap_content"
               android:layout_marginTop="20dp"
               android:hint="Email address"
+              android:textColor="#f00"
               android:inputType="textEmailAddress"
               android:padding="10dp"
             />
@@ -21,6 +22,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_marginTop="10dp"
+               android:textColor="#f00"
               android:inputType="textPassword"
               android:hint="Password"
               android:padding="10dp"

@@ -15,12 +15,15 @@ public interface ShipApi {
 	 @POST("token")
 	 @FormUrlEncoded
 	    Call<AccessToken> Login( 
-	    		@Field("username") String username,@Field("password") String password
-	    		,@Field("client_id") String client_id,@Field("grant_type") String grant_type	);
+	    		@Field("username") String username,
+	    		@Field("password") String password,
+	    		@Field("client_id") String client_id,
+	    		@Field("grant_type") String grant_type);
 	
 	 @POST("token")
 	 @FormUrlEncoded
 	 Call<AccessToken> RefreshToken( 
-	    	@Field("refresh_token") String refresh_token
-	    		,@Field("client_id") String client_id,@Field("grant_type") String grant_type	);
+	    	@Field("refresh_token") String refresh_token,
+	    	@Field("client_id") String client_id,
+	    	@Field("grant_type") String grant_type);
 }

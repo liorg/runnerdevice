@@ -1,12 +1,18 @@
 package il.co.runnerdevice.Api;
 
 import il.co.runnerdevice.CustomHttpClient;
+import il.co.runnerdevice.Authentication.AccountGeneral;
 import il.co.runnerdevice.Pojo.AccessToken;
 import il.co.runnerdevice.Services.SessionService;
+import il.co.runnerdevice.Utils.CommonUtilities;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -20,6 +26,10 @@ import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.util.Base64;
 import android.util.Log;
 
@@ -34,8 +44,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
 
-    public static final String API_BASE_URL = "http://testkipo.kipodeal.co.il";
-
+    public static final  String API_BASE_URL = "http://testkipo.kipodeal.co.il";
+    public static final  String  TAG_CLASS="ServiceGenerator";
+	private static final String authToken = null;
+	private static final String APP_NAME = "runner.co.il";
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     private static Retrofit.Builder builder  =
@@ -48,6 +60,64 @@ public class ServiceGenerator {
     }
 
 
+    public static <S> S createService(Class<S> serviceClass, final 	AccountManager am,final	Account account) {  
+        
+    	//final String authToken=session.GetToken();
+    
+    	//final String oldToken=am.peekAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);//(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, false);
+    	//Log.d(APP_NAME, TAG + "> createService =>oldToken return  "+oldToken );
+    	
+    	//if (authToken != null)
+    	{
+        	httpClient.addInterceptor(new Interceptor() {
+
+				@Override
+				public Response intercept(Chain chain) throws IOException {
+					// TODO Auto-generated method stub
+					  Request original = chain.request();
+					  	//http://stackoverflow.com/questions/22450036/refreshing-oauth-token-using-retrofit-without-modifying-all-calls
+					  String authToken=null;
+					try {
+						String expiredDate= am.getUserData(account, AccountGeneral.PARAM_EXPIRED);
+						 boolean isvalidToken=CommonUtilities.IsValidToken(expiredDate);
+						Log.d(APP_NAME, TAG_CLASS + "> createService =>isValid return    "+isvalidToken );
+						if(!isvalidToken)
+						{
+							String oldToken=am.peekAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);//(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, false);
+						    Log.d(APP_NAME, TAG_CLASS + "> .createService =>invalidateAuthToken   "+oldToken );
+						    //remove from the cache
+							am.invalidateAuthToken(AccountGeneral.ACCOUNT_TYPE, oldToken);
+						}
+						//from the cache
+						authToken = am.blockingGetAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, true);
+						Log.d(APP_NAME, TAG_CLASS + "> createService =>blockingGetAuthToken   "+authToken );
+						am.setAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, authToken);
+						
+					} catch (OperationCanceledException e) {
+					
+						e.printStackTrace();
+					} catch (AuthenticatorException e) {
+					
+						e.printStackTrace();
+					}
+				        final String authTokenHeader="Bearer "+ authToken;
+	                    Request.Builder requestBuilder = original.newBuilder()
+	                        .header("Authorization", authTokenHeader)
+	                        .header("Accept", "application/json")
+	                        .header("content-type", "application/json")
+	                        .method(original.method(), original.body());
+
+	                    Request request = requestBuilder.build();
+	                    return chain.proceed(request);
+				}
+             });
+        }
+        OkHttpClient client = httpClient.build();
+        Retrofit retrofit = builder.client(client).build();
+        return retrofit.create(serviceClass);
+    }
+  
+    
     public static <S> S createService(Class<S> serviceClass, final SessionService session) {  
        
     	//final String authToken=session.GetToken();
@@ -108,6 +178,7 @@ public class ServiceGenerator {
 							    }
 							    catch (IOException e) {
 							        e.printStackTrace();
+							      
 							    }
 					         
 					        
@@ -156,4 +227,5 @@ public class ServiceGenerator {
         return retrofit.create(serviceClass);
     }
    
+    
 }
