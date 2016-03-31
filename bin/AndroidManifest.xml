@@ -4,6 +4,9 @@
     android:versionCode="1"
     
     android:versionName="1.0" >
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
 
   <!-- GCM requires Android SDK version 2.2 (API level 8) or above. -->
     <!-- The targetSdkVersion is optional, but it's always a good practice
@@ -11,7 +14,7 @@
   
     
     <uses-permission android:name="android.permission.INTERNET" />
-
+    
       <!-- GCM requires a Google account. -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
@@ -44,17 +47,16 @@
   
   <application
         android:allowBackup="true"
-          android:name="MyApplication"
+          android:name=".MyApplication"
         android:icon="@drawable/ic_launcher"
       
   android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.Light" >
        
  <activity
-            android:name="il.co.runnerdevice.Controllers.LoginDisplayActivity"
+         android:name=".Controllers.MainActivity" android:exported="true"
          android:label="@string/app_name" >
-            <intent-filter>
-             
+            <intent-filter>    
        <action android:name="android.intent.action.MAIN" />
        <category android:name="android.intent.category.LAUNCHER" />
       
@@ -63,19 +65,22 @@
         
         <!-- DashBoard / MainActivity -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".Tutorial.LoginActivity"
             android:label="User Login" >
         </activity>
         
          <!--activity
-            android:name="il.co.runnerdevice.Controllers.LoginDisplayActivity"
+            android:name=".Controllers.LoginDisplayActivity"
             android:label="כניסה למערכת" >
         </activity-->
         
           <activity
-            android:name="il.co.runnerdevice.Controllers.MainActivity"
+            android:name="il.co.runnerdevice.Controllers.Main2Activity"
             android:label="@string/app_name" >
         </activity>
+        
+        <activity android:label="@string/login_label" android:name=".Controllers.AuthenticatorActivity"/>
+        
          <activity android:name="org.acra.CrashReportDialog"
         android:theme="@style/Theme.Dialog"
         android:process=":error_report"
@@ -114,6 +119,13 @@
             android:name="org.acra.sender.SenderService"
             android:exported="false"
             android:process=":acra" />
+        
+    	<service android:name=".Authentication.RunnerAuthenticatorService">
+			<intent-filter>
+				<action android:name="android.accounts.AccountAuthenticator"/>
+			</intent-filter>
+			<meta-data android:name="android.accounts.AccountAuthenticator" android:resource="@xml/authenticator"/>
+		</service>
         
     </application>
 </manifest>

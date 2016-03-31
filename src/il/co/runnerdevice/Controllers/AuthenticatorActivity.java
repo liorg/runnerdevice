@@ -189,7 +189,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 
     public void finishLogin(Intent intent) {
         Log.d("RunnerDevice", TAG + "> finishLogin");
-
+        Account[] accounts=mAccountManager.getAccountsByType(AccountManager.KEY_ACCOUNT_TYPE);
+        if(accounts.length>0){
+        	 Toast.makeText(getBaseContext(), "הסרת לקוח קיים", Toast.LENGTH_SHORT).show();
+        	mAccountManager.removeAccountExplicitly(accounts[0]);
+        }
         String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
         String accountPassword = intent.getStringExtra(PARAM_USER_PASS);
         final Account account = new Account(accountName, intent.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE));

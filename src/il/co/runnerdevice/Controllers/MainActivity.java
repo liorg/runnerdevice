@@ -151,9 +151,11 @@ public class MainActivity  extends FragmentActivity {
 						Response<WhoAmIResponse> arg1) {
 					// TODO Auto-generated method stub
 					 try {
-						 if(!arg1.body().isIsAuthenticated())
+						 if(!arg1.body().isIsAuthenticated()){
 							 txt_pressure.setText("user  : NO Authenticated " );
+						 addNewAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
 							// _session.RedirctToLogin();
+						 }
 						 else{
 		                    String pressure = arg1.body().getModel().getFullName();
 		                    txt_pressure.setText("user  :  " + pressure);

@@ -132,7 +132,8 @@ public class RunnerAuthenticatorAdaptor extends AbstractAccountAuthenticator {
 			        
 			        if(access_token.has("error")){
 			        	 Log.e(CommonUtilities.APP_NAME, TAG_CLASS + "> getAuthToken access_token error ");
-			        	throw new IllegalArgumentException("token error");
+			        	//throw new IllegalArgumentException("token error");
+			        	return  IfFailedReplaceCurrentUser(response,account,authTokenType);
 			        }
 			        authToken=access_token.getString("access_token");
 			        
@@ -149,9 +150,11 @@ public class RunnerAuthenticatorAdaptor extends AbstractAccountAuthenticator {
 			  
 			    } 
 			    catch (JSONException eej) {
-			        eej.printStackTrace();
+			    	   Log.e(TAG_CLASS,eej.getMessage());
+			      //  eej.printStackTrace();
 			    }
 			    catch (IOException e) {
+			    	   Log.e(TAG_CLASS,e.getMessage());
 			        e.printStackTrace();
 			    }
         }
@@ -184,7 +187,20 @@ public class RunnerAuthenticatorAdaptor extends AbstractAccountAuthenticator {
         bundle.putParcelable(AccountManager.KEY_INTENT, intent);
         return bundle;
     }
-
+    
+    public Bundle IfFailedReplaceCurrentUser(AccountAuthenticatorResponse response,Account account, String authTokenType){
+    	 // If we get here, then we couldn't access the user's password - so we
+        // need to re-prompt them for their credentials. We do that by creating
+        // an intent to display our AuthenticatorActivity.
+        final Intent intent = new Intent(mContext, AuthenticatorActivity.class);
+        intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+        intent.putExtra(AuthenticatorActivity.ARG_ACCOUNT_TYPE, account.type);
+        intent.putExtra(AuthenticatorActivity.ARG_AUTH_TYPE, authTokenType);
+        intent.putExtra(AuthenticatorActivity.ARG_ACCOUNT_NAME, account.name);
+        final Bundle bundle = new Bundle();
+        bundle.putParcelable(AccountManager.KEY_INTENT, intent);
+        return bundle;
+    }
 
     @Override
     public String getAuthTokenLabel(String authTokenType) {
