@@ -1,4 +1,4 @@
-package il.co.runnerdevice;
+package il.co.runnerdevice.Tutorial;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import il.co.runnerdevice.R;
 public class ChatFragment extends Fragment {
 
 	@Override

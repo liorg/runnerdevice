@@ -26,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import il.co.runnerdevice.CustomHttpClient;
+import il.co.runnerdevice.Tutorial.CustomHttpClient;
 import il.co.runnerdevice.Api.ShipApi;
 import il.co.runnerdevice.Controllers.AuthenticatorActivity;
 import il.co.runnerdevice.Pojo.AccessToken;

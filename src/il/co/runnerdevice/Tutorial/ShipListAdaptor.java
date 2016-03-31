@@ -1,5 +1,5 @@
-package il.co.runnerdevice;
-
+package il.co.runnerdevice.Tutorial;
+import il.co.runnerdevice.R;
 import java.util.List;
 
 import android.app.Activity;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import il.co.runnerdevice.R;
 public class ShipListAdaptor extends BaseAdapter {
 
 	 Context context;

@@ -1,4 +1,4 @@
-package il.co.runnerdevice;
+package il.co.runnerdevice.Tutorial;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,11 +46,11 @@ import android.widget.ListView;
 
 import com.google.android.gcm.GCMRegistrar;
 
-import static il.co.runnerdevice.CommonUtilities.DISPLAY_MESSAGE_ACTION;
-import static il.co.runnerdevice.CommonUtilities.EXTRA_MESSAGE;
-import static il.co.runnerdevice.CommonUtilities.SENDER_ID;
-import static il.co.runnerdevice.CommonUtilities.SERVER_URL;
-
+import static il.co.runnerdevice.Tutorial.CommonUtilities.DISPLAY_MESSAGE_ACTION;
+import static il.co.runnerdevice.Tutorial.CommonUtilities.EXTRA_MESSAGE;
+import static il.co.runnerdevice.Tutorial.CommonUtilities.SENDER_ID;
+import static il.co.runnerdevice.Tutorial.CommonUtilities.SERVER_URL;
+import il.co.runnerdevice.R;
 public class MainActivity extends FragmentActivity {
 
 	String[] menutitles;

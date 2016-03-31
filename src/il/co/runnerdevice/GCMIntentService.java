@@ -12,10 +12,12 @@ import android.util.Log;
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
 
-import static il.co.runnerdevice.CommonUtilities.SENDER_ID;
-import static il.co.runnerdevice.CommonUtilities.displayMessage;
-
-
+import static il.co.runnerdevice.Tutorial.CommonUtilities.SENDER_ID;
+import static il.co.runnerdevice.Tutorial.CommonUtilities.displayMessage;
+import il.co.runnerdevice.R;
+import il.co.runnerdevice.Tutorial.ServerUtilities;
+import il.co.runnerdevice.Tutorial.SessionManager;
+import il.co.runnerdevice.Tutorial.*;
 public class GCMIntentService extends GCMBaseIntentService {
 
     @SuppressWarnings("hiding")

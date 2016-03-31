@@ -1,8 +1,8 @@
-package il.co.runnerdevice;
+package il.co.runnerdevice.Tutorial;
 
 //import android.app.Fragment;
 //import android.app.FragmentManager;
-
+import il.co.runnerdevice.R;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;

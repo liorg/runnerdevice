@@ -1,4 +1,4 @@
-package il.co.runnerdevice;
+package il.co.runnerdevice.Tutorial;
 
 public class RowItem
 {    

@@ -5,7 +5,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import il.co.runnerdevice.AlertDialogManager;
+import il.co.runnerdevice.Tutorial.AlertDialogManager;
 
 import il.co.runnerdevice.Controllers.*;
 

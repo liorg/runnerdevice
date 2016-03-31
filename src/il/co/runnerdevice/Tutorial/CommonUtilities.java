@@ -1,4 +1,4 @@
-package il.co.runnerdevice;
+package il.co.runnerdevice.Tutorial;
 
 
 import android.content.Context;
@@ -14,28 +14,28 @@ public final class CommonUtilities {
     /**
      * Base URL of the Demo Server (such as http://my_host:8080/gcm-demo)
      */
-    static final String SERVER_URL = "http://5.100.251.87:4545/push/Register.ashx";
+	public static final String SERVER_URL = "http://5.100.251.87:4545/push/Register.ashx";
 
     /**
      * Google API project id registered to use GCM.
      */
-    static final String SENDER_ID = "530446261684";
+    public static final String SENDER_ID = "530446261684";
 
     /**
      * Tag used on log messages.
      */
-    static final String TAG = "GCMDemo";
+    public static final String TAG = "GCMDemo";
 
     /**
      * Intent used to display a message in the screen.
      */
-    static final String DISPLAY_MESSAGE_ACTION ="il.co.runnerdevice.DISPLAY_MESSAGE";
-    static final String NotifyMessage ="NotifyMessage";
+    public static final String DISPLAY_MESSAGE_ACTION ="il.co.runnerdevice.DISPLAY_MESSAGE";
+    public static final String NotifyMessage ="NotifyMessage";
 
     /**
      * Intent's extra that contains the message to be displayed.
      */
-    static final String EXTRA_MESSAGE = "message";
+    public static final String EXTRA_MESSAGE = "message";
 
     /**
      * Notifies UI to display a message.
@@ -46,7 +46,7 @@ public final class CommonUtilities {
      * @param context application's context.
      * @param message message to be displayed.
      */
-    static void displayMessage(Context context, String message) {
+    public static void displayMessage(Context context, String message) {
         Intent intent = new Intent(DISPLAY_MESSAGE_ACTION);
         intent.putExtra(EXTRA_MESSAGE, message);
         context.sendBroadcast(intent);

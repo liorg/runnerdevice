@@ -72,67 +72,76 @@ import com.google.android.gcm.GCMRegistrar;
 
 
 //http://www.androidwarriors.com/2015/12/retrofit-20-android-example-web.html
-public class Main2Activity  extends FragmentActivity {
-	// String url = "http://api.openweathermap.org";
+public class WhoAmIActivity  extends FragmentActivity {
 	  String url = CommonUtilities.URL;
 	    TextView  txt_pressure;
 		// Session Manager Class
 		SessionService session;
 		  private AccountManager mAccountManager;
+		
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_retrofit);
-		session = new SessionService(getApplicationContext()); 
 		 mAccountManager =  AccountManager.get(this);
-		txt_pressure = (TextView) findViewById(R.id.txt_press);
+		 
+		 
 		Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
 		if(accounts.length==0)
 		{
-		// Toast.makeText(getApplicationContext(), "no has account");
-	          Log.d("runnerdevice", "no has account ");
+		 Toast.makeText(getApplicationContext(), "no has account", 3);
 		    addNewAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
 		}
 		else{
-			getWhoAmi2(accounts[0]);
+		session = new SessionService(getApplicationContext()); 
+		
+		txt_pressure = (TextView) findViewById(R.id.txt_press);
+		  //getReport();
+		Account account = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
+		getWhoAmi2(account);
 		}
+		
 		 findViewById(R.id.btnwhoami).setOnClickListener(new View.OnClickListener() {
 	            @Override
 	            public void onClick(View v) {
 	            	 txt_pressure.setText("user  : ... " );
-	            	Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
-	        		if(accounts.length==0)
-	        		{
-	        		// Toast.makeText(getApplicationContext(), "no has account");
-	        	          Log.d("runnerdevice", "no has account ");
-	        		    addNewAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
-	        		}
-	        		else{
-	        			getWhoAmi2(accounts[0]);
-	        		}
+		            	Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+		        		if(accounts.length==0)
+		        		{
+		        		// Toast.makeText(getApplicationContext(), "no has account");
+		        	          Log.d("runnerdevice", "no has account ");
+		        		    addNewAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+		        		}
+		        		else{
+		        			getWhoAmi2(accounts[0]);
+		        		}
 	            }
 	        });
-		  //getReport();
-		//getWhoAmi(session);
-	}
-	void getWhoAmi2(Account account) {
-		   Log.d("runnerdevice", "getWhoAmi2 ");
-		 Retrofit retrofit = new Retrofit.Builder()
-       .baseUrl(url)
-       .addConverterFactory(GsonConverterFactory.create())
-       .build();
-
-		// ShipApi service = retrofit.create(ShipApi.class);
-		// Call<WhoAmIResponse> call = service.WhoAmi();
 		
-		ShipApi loginService =  ServiceGenerator.createService(ShipApi.class, mAccountManager,account);
+		
+		
+	}
+	
+	@Override
+	   public boolean onCreateOptionsMenu(Menu menu) {
+	      getMenuInflater().inflate(R.menu.main, menu);
+	      return true;
+	   }
+	
+	void getWhoAmi2(Account account) {
+		
+		 Retrofit retrofit = new Retrofit.Builder()
+        .baseUrl(url)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build();
 		 
-	      Call<WhoAmIResponse> call = loginService.WhoAmi();
+		 ShipApi loginService =  ServiceGenerator.createService(ShipApi.class, mAccountManager,account);
+		 
+	     Call<WhoAmIResponse> call = loginService.WhoAmi();
 
-	      call.enqueue(new Callback<WhoAmIResponse>() {
-	        	 
+	     call.enqueue(new Callback<WhoAmIResponse>() {	 
 				@Override
 				public void onFailure(Call<WhoAmIResponse> arg0, Throwable arg1) {
 					// TODO Auto-generated method stub
@@ -156,31 +165,7 @@ public class Main2Activity  extends FragmentActivity {
 					
 				}
 	        	 });
-  }
-	
-	 private void addNewAccount(String accountType, String authTokenType) {
-	        final AccountManagerFuture<Bundle> future = mAccountManager.addAccount(accountType, authTokenType, null, null, this, new AccountManagerCallback<Bundle>() {
-	            @Override
-	            public void run(AccountManagerFuture<Bundle> future) {
-	                try {
-	                    Bundle bnd = future.getResult();
-	                  //  showMessage("Account was created");
-	                    Log.d("runnerdevice", "AddNewAccount Bundle is " + bnd);
-	                    Account account = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
-	            		getWhoAmi2(account);
-
-	                } catch (Exception e) {
-	                    e.printStackTrace();
-	                    //showMessage(e.getMessage());
-	                }
-	            }
-	        }, null);
-	    }
-	@Override
-	   public boolean onCreateOptionsMenu(Menu menu) {
-	      getMenuInflater().inflate(R.menu.main, menu);
-	      return true;
-	   }
+   }
 	
 	void getWhoAmi(SessionService session) {
 		
@@ -225,44 +210,30 @@ public class Main2Activity  extends FragmentActivity {
 	        	 });
     }
 
-	void setLogin() {
-		String username="r";
-	 	String password="1"; 
-	 	String client_id="ngAutoApp";
-	 	String grant_type="password";
-	 	
-		 Retrofit retrofit = new Retrofit.Builder()
-        .baseUrl(url)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build();
-
-		 ShipApi service = retrofit.create(ShipApi.class);
-		 
-		 	
-	      Call<AccessToken> call = service.Login(username, password, client_id, grant_type);
-
-
-	      call.enqueue(new Callback<AccessToken>() {
-	        	 
-				@Override
-				public void onFailure(Call<AccessToken> arg0, Throwable arg1) {
-					// TODO Auto-generated method stub
-					
-				}
-				@Override
-				public void onResponse(Call<AccessToken> arg0,
-						Response<AccessToken> arg1) {
-					// TODO Auto-generated method stub
-					 try {
-		                    String pressure = arg1.body().getMUserId();
-		                    txt_pressure.setText("pressure  :  " + pressure);
-		                } catch (Exception e) {
-		                    e.printStackTrace();
-		                }
-				}
-	        	 });
-   }
-
 	
+	 /**
+     * Add new account to the account manager
+     * @param accountType
+     * @param authTokenType
+     */
+    private void addNewAccount(String accountType, String authTokenType) {
+        final AccountManagerFuture<Bundle> future = mAccountManager.addAccount(accountType, authTokenType, null, null, this, new AccountManagerCallback<Bundle>() {
+            @Override
+            public void run(AccountManagerFuture<Bundle> future) {
+                try {
+                    Bundle bnd = future.getResult();
+                  //  showMessage("Account was created");
+                    Log.d("runnerdevice", "AddNewAccount Bundle is " + bnd);
+                    Account account = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
+            		getWhoAmi2(account);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    //showMessage(e.getMessage());
+                }
+            }
+        }, null);
+    }
 	
+   
 }

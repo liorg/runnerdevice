@@ -1,4 +1,4 @@
-package il.co.runnerdevice; 
+package il.co.runnerdevice.Tutorial; 
 
 //import android.app.Fragment;
 import android.support.v4.app.Fragment;
@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import il.co.runnerdevice.R;
 public class StatusFragment extends Fragment  implements OnClickListener{
 	ShipItemView shipItem;
 	SessionManager session;

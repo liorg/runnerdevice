@@ -1,5 +1,5 @@
-package il.co.runnerdevice;
-import static il.co.runnerdevice.CommonUtilities.SENDER_ID;
+package il.co.runnerdevice.Tutorial;
+import static il.co.runnerdevice.Tutorial.CommonUtilities.SENDER_ID;
 import android.annotation.SuppressLint;
 import android.content.Context;
 //import android.app.Fragment;
@@ -22,14 +22,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+import il.co.runnerdevice.R;
 import com.google.android.gcm.GCMRegistrar;
 
-import static il.co.runnerdevice.CommonUtilities.DISPLAY_MESSAGE_ACTION;
-import static il.co.runnerdevice.CommonUtilities.EXTRA_MESSAGE;
-import static il.co.runnerdevice.CommonUtilities.SENDER_ID;
-import static il.co.runnerdevice.CommonUtilities.SERVER_URL;
-
+import static il.co.runnerdevice.Tutorial.CommonUtilities.DISPLAY_MESSAGE_ACTION;
+import static il.co.runnerdevice.Tutorial.CommonUtilities.EXTRA_MESSAGE;
+import static il.co.runnerdevice.Tutorial.CommonUtilities.SENDER_ID;
+import static il.co.runnerdevice.Tutorial.CommonUtilities.SERVER_URL;
+import il.co.runnerdevice.R;
 public class Token_Fragment extends Fragment {
 	// Session Manager Class
 	SessionManager m_session;

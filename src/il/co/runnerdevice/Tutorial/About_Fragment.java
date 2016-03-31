@@ -1,5 +1,6 @@
-package il.co.runnerdevice;
+package il.co.runnerdevice.Tutorial;
 
+import il.co.runnerdevice.R;
 import android.annotation.SuppressLint;
 //import android.app.Fragment;
 import android.support.v4.app.Fragment;

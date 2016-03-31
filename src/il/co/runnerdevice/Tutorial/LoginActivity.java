@@ -1,4 +1,4 @@
-package il.co.runnerdevice;
+package il.co.runnerdevice.Tutorial;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -25,7 +25,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import il.co.runnerdevice.R;
 //http://www.androidhive.info/2012/08/android-session-management-using-shared-preferences/
 public class LoginActivity extends Activity {
 	

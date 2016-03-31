@@ -1,6 +1,6 @@
 package il.co.runnerdevice.Api;
 
-import il.co.runnerdevice.CustomHttpClient;
+import il.co.runnerdevice.Tutorial.CustomHttpClient;
 import il.co.runnerdevice.Authentication.AccountGeneral;
 import il.co.runnerdevice.Pojo.AccessToken;
 import il.co.runnerdevice.Services.SessionService;
@@ -47,7 +47,7 @@ public class ServiceGenerator {
     public static final  String API_BASE_URL = "http://testkipo.kipodeal.co.il";
     public static final  String  TAG_CLASS="ServiceGenerator";
 	private static final String authToken = null;
-	private static final String APP_NAME = "runner.co.il";
+	private static final String APP_NAME = "runnerdevice.co.il";
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     private static Retrofit.Builder builder  =
@@ -135,7 +135,7 @@ public class ServiceGenerator {
 
 				        if (!isValidToken) 
 				        {
-				        	 List<NameValuePair> nameValuePairs=il.co.runnerdevice.CustomHttpClient.GetRefreshToken(session);
+				        	 List<NameValuePair> nameValuePairs=il.co.runnerdevice.Tutorial.CustomHttpClient.GetRefreshToken(session);
 							 
 							 HttpClient httpClient = new DefaultHttpClient();
 							 HttpContext localContext = new BasicHttpContext();

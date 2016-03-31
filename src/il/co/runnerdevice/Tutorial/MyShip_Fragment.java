@@ -1,6 +1,6 @@
-package il.co.runnerdevice;
+package il.co.runnerdevice.Tutorial;
 
-
+import il.co.runnerdevice.R;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;

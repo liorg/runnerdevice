@@ -1,7 +1,7 @@
-package il.co.runnerdevice;
+package il.co.runnerdevice.Tutorial;
 
-
-
+import il.co.runnerdevice.R;
+import il.co.runnerdevice.R;
 import com.google.android.gcm.GCMRegistrar;
 
 import android.content.Context;
@@ -75,7 +75,7 @@ public class ServerUtilities {
 	     *
 	     * @return whether the registration succeeded or not.
 	     */
-	    static boolean register(final Context context, final String regId,String userid) 
+	    public static boolean register(final Context context, final String regId,String userid) 
 	    {
 	        Log.i(CommonUtilities.TAG, "registering device (regId = " + regId + ")");
 	        String serverUrl = CommonUtilities.SERVER_URL ;
@@ -125,7 +125,7 @@ public class ServerUtilities {
 	    /**
 	     * Unregister this account/device pair within the server.
 	     */
-	    static void unregister(final Context context, final String regId) {
+	    public static void unregister(final Context context, final String regId) {
 	       // Log.i(CommonUtilities.TAG, "unregistering device (regId = " + regId + ")");
 	        
 	        String serverUrl = CommonUtilities.SERVER_URL + "/unregister";

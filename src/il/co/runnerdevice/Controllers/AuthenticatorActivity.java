@@ -21,7 +21,7 @@ import il.co.runnerdevice.Api.ShipApi;
 import il.co.runnerdevice.Authentication.AccountGeneral;
 import il.co.runnerdevice.Pojo.AccessToken;
 import il.co.runnerdevice.Utils.CommonUtilities;
-
+import il.co.runnerdevice.Tutorial.AlertDialogManager;
 
 /**
  * The Authenticator activity.
@@ -46,7 +46,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     private AccountManager mAccountManager;
     private String mAuthTokenType;
     
-	AlertDialogManager alert = new AlertDialogManager();
+    AlertDialogManager alert = new AlertDialogManager();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
