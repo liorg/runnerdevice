@@ -191,8 +191,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         Log.d("RunnerDevice", TAG + "> finishLogin");
         Account[] accounts=mAccountManager.getAccountsByType(AccountManager.KEY_ACCOUNT_TYPE);
         if(accounts.length>0){
-        	 Toast.makeText(getBaseContext(), "הסרת לקוח קיים", Toast.LENGTH_SHORT).show();
-        	mAccountManager.removeAccountExplicitly(accounts[0]);
+        	Toast.makeText(getBaseContext(), "הסרת לקוח/ות קיימ/ים", Toast.LENGTH_LONG).show();
+        	for(Account acc : accounts)
+        	mAccountManager.removeAccountExplicitly(acc);
         }
         String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
         String accountPassword = intent.getStringExtra(PARAM_USER_PASS);
@@ -213,9 +214,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
             mAccountManager.setUserData(account, AccountGeneral.PARAM_EXPIRED, expiredDate);
             mAccountManager.setUserData(account, AccountGeneral.PARAM_USER_ID, userID);
             mAccountManager.setUserData(account, AccountGeneral.PARAM_ROLES, roleID);
-            mAccountManager.setUserData(account,"pws", accountPassword);
-            Log.d("runnerdevice", TAG + "> finishLogin > setPassword(1)");
-            mAccountManager.setPassword(account, accountPassword);
+            mAccountManager.setUserData(account,AccountGeneral.PARAM_PWS, accountPassword);
+           // Log.d("runnerdevice", TAG + "> finishLogin > setPassword(1)");
+            //mAccountManager.setPassword(account, accountPassword);
             
             
         } else {

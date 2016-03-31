@@ -96,6 +96,10 @@ public class RunnerAuthenticatorAdaptor extends AbstractAccountAuthenticator {
 
         final String password = am.getPassword(account);
         Log.d(CommonUtilities.APP_NAME, TAG_CLASS + "> getAuthToken password - " + password);
+        final String param_password = am.getUserData(account, AccountGeneral.PARAM_PWS);
+        
+        Log.d(CommonUtilities.APP_NAME, TAG_CLASS + "> getAuthToken param_password - " + param_password);
+        
         boolean isvalidToken=CommonUtilities.IsValidToken(expired);
         //https://gist.github.com/burgalon/dd289d54098068701aee
        // if(!isvalidToken || TextUtils.isEmpty(authToken))
@@ -147,6 +151,9 @@ public class RunnerAuthenticatorAdaptor extends AbstractAccountAuthenticator {
 			     am.setUserData(account, AccountGeneral.PARAM_EXPIRED, expiredDate);
 			      Log.d(CommonUtilities.APP_NAME, TAG_CLASS + "> getAuthToken am.setUserData PARAM_EXPIRED, - " + expiredDate);
 			      // am.setAuthToken(account, authTokenType, authToken);
+			      am.setUserData(account, AccountGeneral.PARAM_PWS, refresh_token);
+			      Log.d(CommonUtilities.APP_NAME, TAG_CLASS + "> getAuthToken am.setUserData PARAM_PWS, - " + refresh_token);
+				       
 			  
 			    } 
 			    catch (JSONException eej) {

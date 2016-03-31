@@ -119,7 +119,9 @@ public class MainActivity  extends FragmentActivity {
 	            	 Calendar cal = Calendar.getInstance();
 	            	 txt_time.setText("time  : "+cal.getTime());
 		             Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
-		             
+		             if(accounts==null){
+		            	   Log.d("runnerdevice", "no has any accounts account ");
+		             }
 		        	  if(accounts.length==0)
 		        		{
 		        		// Toast.makeText(getApplicationContext(), "no has account");
@@ -127,6 +129,8 @@ public class MainActivity  extends FragmentActivity {
 		        		    addNewAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
 		        		}
 		        		else{
+		        			   Log.d("runnerdevice", "account getWhoAmi2 ");
+		        			   
 		        			getWhoAmi2(accounts[0]);
 		        		}
 	            }
