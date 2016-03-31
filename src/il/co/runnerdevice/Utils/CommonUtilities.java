@@ -74,14 +74,22 @@ public final class CommonUtilities {
 			TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 			Calendar cal = Calendar.getInstance(TimeZone.getDefault());
 			local = cal.getTime();
+			Log.d(APP_NAME, TAGC + "> IsValidToken =>local(UTC) return "+local );
 			
 			try {
+				format.setTimeZone(TimeZone.getDefault());
 				expiredDate = format.parse(eDate);
-				   if(local.before(expiredDate))
+				Log.d(APP_NAME, TAGC + "> IsValidToken =>expiredDate return "+expiredDate );
+				   if(local.before(expiredDate)){
+					   Log.d(APP_NAME, TAGC + "> IsValidToken =>local.before(expiredDat RETURN True");
 					   	return true;
+				   }
+				   Log.d(APP_NAME, TAGC + "> IsValidToken =>local.before(expiredDat RETURN false");
 				 	return false;
 			} 
 			catch (Exception e) {
+				 Log.e(APP_NAME, TAGC + "> IsValidToken =>error"+e.getMessage());
+				 
 			    e.printStackTrace();
 		return false;
 			}

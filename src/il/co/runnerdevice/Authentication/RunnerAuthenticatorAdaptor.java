@@ -98,14 +98,14 @@ public class RunnerAuthenticatorAdaptor extends AbstractAccountAuthenticator {
         Log.d(CommonUtilities.APP_NAME, TAG_CLASS + "> getAuthToken password - " + password);
         boolean isvalidToken=CommonUtilities.IsValidToken(expired);
         //https://gist.github.com/burgalon/dd289d54098068701aee
-        if(!isvalidToken || TextUtils.isEmpty(authToken))
+       // if(!isvalidToken || TextUtils.isEmpty(authToken))
         {  
         	Log.d(CommonUtilities.APP_NAME, TAG_CLASS + "> IsValidToken(expired)  return " + isvalidToken);
         	
         	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-     	    nameValuePairs.add(new BasicNameValuePair("grant_type", "refresh_token"));
+     	    nameValuePairs.add(new BasicNameValuePair("grant_type", AccountGeneral.GRANT_TYPE_REFRESH_TOKEN));
      	    nameValuePairs.add(new BasicNameValuePair("refresh_token", password));
-     	    nameValuePairs.add(new BasicNameValuePair("client_id", "ngAutoApp"));
+     	    nameValuePairs.add(new BasicNameValuePair("client_id", AccountGeneral.CLIENT_ID));
      	    
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpContext localContext = new BasicHttpContext();
@@ -211,8 +211,6 @@ public class RunnerAuthenticatorAdaptor extends AbstractAccountAuthenticator {
         else
             return authTokenType + " (Label)";
     }
-
-   
       
     @Override
     public Bundle hasFeatures(AccountAuthenticatorResponse response, Account account, String[] features) throws NetworkErrorException {

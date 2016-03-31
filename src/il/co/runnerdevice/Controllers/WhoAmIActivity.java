@@ -125,7 +125,7 @@ public class WhoAmIActivity  extends FragmentActivity {
 	}
 	
 	@Override
-	   public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) {
 	      getMenuInflater().inflate(R.menu.main, menu);
 	      return true;
 	   }
@@ -151,9 +151,11 @@ public class WhoAmIActivity  extends FragmentActivity {
 						Response<WhoAmIResponse> arg1) {
 					// TODO Auto-generated method stub
 					 try {
-						 if(!arg1.body().isIsAuthenticated())
+						 if(!arg1.body().isIsAuthenticated()){
 							 txt_pressure.setText("user  : NO Authenticated " );
+						 addNewAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
 							// _session.RedirctToLogin();
+						 }
 						 else{
 		                    String pressure = arg1.body().getModel().getFullName();
 		                    txt_pressure.setText("user  :  " + pressure);
@@ -166,50 +168,6 @@ public class WhoAmIActivity  extends FragmentActivity {
 				}
 	        	 });
    }
-	
-	void getWhoAmi(SessionService session) {
-		
-		 final SessionService _session;
-		 _session=session;
-		 Retrofit retrofit = new Retrofit.Builder()
-         .baseUrl(url)
-         .addConverterFactory(GsonConverterFactory.create())
-         .build();
-
-		// ShipApi service = retrofit.create(ShipApi.class);
-		// Call<WhoAmIResponse> call = service.WhoAmi();
-		String token="Bearer "+ _session.GetToken();
-		ShipApi loginService =  ServiceGenerator.createService(ShipApi.class, _session);
-		 
-	      Call<WhoAmIResponse> call = loginService.WhoAmi();
-
-	      call.enqueue(new Callback<WhoAmIResponse>() {
-	        	 
-				@Override
-				public void onFailure(Call<WhoAmIResponse> arg0, Throwable arg1) {
-					// TODO Auto-generated method stub
-				}
-				@Override
-				public void onResponse(Call<WhoAmIResponse> arg0,
-						Response<WhoAmIResponse> arg1) {
-					// TODO Auto-generated method stub
-					 try {
-						 if(!arg1.body().isIsAuthenticated())
-							 txt_pressure.setText("pressure  : NO Authenticated " );
-							// _session.RedirctToLogin();
-						 else{
-		                    String pressure = arg1.body().getModel().getFullName();
-		                    txt_pressure.setText("pressure  :  " + pressure);
-						 }
-						 } 
-					 catch (Exception e) {
-		                    e.printStackTrace();
-		                }
-					
-				}
-	        	 });
-    }
-
 	
 	 /**
      * Add new account to the account manager

@@ -11,7 +11,10 @@ import il.co.runnerdevice.Pojo.WhoAmIResponse;
 import il.co.runnerdevice.Services.SessionService;
 import il.co.runnerdevice.Utils.CommonUtilities;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,6 +41,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -75,9 +79,10 @@ import com.google.android.gcm.GCMRegistrar;
 public class MainActivity  extends FragmentActivity {
 	  String url = CommonUtilities.URL;
 	    TextView  txt_pressure;
+	    TextView  txt_time;
 		// Session Manager Class
 		SessionService session;
-		  private AccountManager mAccountManager;
+	    AccountManager mAccountManager;
 		
 	@SuppressLint("NewApi")
 	@Override
@@ -85,8 +90,7 @@ public class MainActivity  extends FragmentActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_retrofit);
-		 mAccountManager =  AccountManager.get(this);
-		 
+	    mAccountManager =  AccountManager.get(this);
 		 
 		Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
 		if(accounts.length==0)
@@ -98,6 +102,10 @@ public class MainActivity  extends FragmentActivity {
 		session = new SessionService(getApplicationContext()); 
 		
 		txt_pressure = (TextView) findViewById(R.id.txt_press);
+		txt_time  = (TextView) findViewById(R.id.txt_time);
+		 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    	 Calendar cal = Calendar.getInstance();
+    	 txt_time.setText("begin time  : "+cal.getTime());
 		  //getReport();
 		Account account = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
 		getWhoAmi2(account);
@@ -107,8 +115,12 @@ public class MainActivity  extends FragmentActivity {
 	            @Override
 	            public void onClick(View v) {
 	            	 txt_pressure.setText("user  : ... " );
-		            	Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
-		        		if(accounts.length==0)
+	            	 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	            	 Calendar cal = Calendar.getInstance();
+	            	 txt_time.setText("time  : "+cal.getTime());
+		             Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+		             
+		        	  if(accounts.length==0)
 		        		{
 		        		// Toast.makeText(getApplicationContext(), "no has account");
 		        	          Log.d("runnerdevice", "no has account ");
@@ -119,9 +131,6 @@ public class MainActivity  extends FragmentActivity {
 		        		}
 	            }
 	        });
-		
-		
-		
 	}
 	
 	@Override
@@ -169,55 +178,7 @@ public class MainActivity  extends FragmentActivity {
 	        	 });
    }
 	
-	void getWhoAmi(SessionService session) {
-		
-		 final SessionService _session;
-		 _session=session;
-		 Retrofit retrofit = new Retrofit.Builder()
-         .baseUrl(url)
-         .addConverterFactory(GsonConverterFactory.create())
-         .build();
-
-		// ShipApi service = retrofit.create(ShipApi.class);
-		// Call<WhoAmIResponse> call = service.WhoAmi();
-		String token="Bearer "+ _session.GetToken();
-		ShipApi loginService =  ServiceGenerator.createService(ShipApi.class, _session);
-		 
-	      Call<WhoAmIResponse> call = loginService.WhoAmi();
-
-	      call.enqueue(new Callback<WhoAmIResponse>() {
-	        	 
-				@Override
-				public void onFailure(Call<WhoAmIResponse> arg0, Throwable arg1) {
-					// TODO Auto-generated method stub
-				}
-				@Override
-				public void onResponse(Call<WhoAmIResponse> arg0,
-						Response<WhoAmIResponse> arg1) {
-					// TODO Auto-generated method stub
-					 try {
-						 if(!arg1.body().isIsAuthenticated())
-							 txt_pressure.setText("pressure  : NO Authenticated " );
-							// _session.RedirctToLogin();
-						 else{
-		                    String pressure = arg1.body().getModel().getFullName();
-		                    txt_pressure.setText("pressure  :  " + pressure);
-						 }
-						 } 
-					 catch (Exception e) {
-		                    e.printStackTrace();
-		                }
-					
-				}
-	        	 });
-    }
-
 	
-	 /**
-     * Add new account to the account manager
-     * @param accountType
-     * @param authTokenType
-     */
     private void addNewAccount(String accountType, String authTokenType) {
         final AccountManagerFuture<Bundle> future = mAccountManager.addAccount(accountType, authTokenType, null, null, this, new AccountManagerCallback<Bundle>() {
             @Override
