@@ -78,21 +78,26 @@ public class ServiceGenerator {
 					  	//http://stackoverflow.com/questions/22450036/refreshing-oauth-token-using-retrofit-without-modifying-all-calls
 					  String authToken=null;
 					try {
+						boolean isCached=true;
 						String expiredDate= am.getUserData(account, AccountGeneral.PARAM_EXPIRED);
 						 boolean isvalidToken=CommonUtilities.IsValidToken(expiredDate);
 						Log.d(APP_NAME, TAG_CLASS + "> createService =>isValid return    "+isvalidToken );
 						if(!isvalidToken)
 						{
+							isCached=false;
 							String oldToken=am.peekAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);//(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, false);
 						    Log.d(APP_NAME, TAG_CLASS + "> .createService =>invalidateAuthToken   "+oldToken );
 						    //remove from the cache
 							am.invalidateAuthToken(AccountGeneral.ACCOUNT_TYPE, oldToken);
 						}
-						//from the cache
+						//get from  cache if invalidateAutoToken call it's refresh token
 						authToken = am.blockingGetAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, true);
 						Log.d(APP_NAME, TAG_CLASS + "> createService =>blockingGetAuthToken   "+authToken );
-						am.setAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, authToken);
 						
+						if(!isCached){
+							Log.d(APP_NAME, TAG_CLASS + "> createService =>cached is true   ");
+							am.setAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, authToken);
+						}
 					} catch (OperationCanceledException e) {
 					
 						e.printStackTrace();
