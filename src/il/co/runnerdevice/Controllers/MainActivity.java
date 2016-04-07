@@ -170,7 +170,8 @@ public class MainActivity  extends FragmentActivity {
 							// _session.RedirctToLogin();
 						 }
 						 else{
-		                    String pressure = arg1.body().getModel().getFullName();
+		                    String pressure = arg1.body().getModel().getFullName() +"("+arg1.body().getModel().getFirstName()+")";
+		                    
 		                    txt_pressure.setText("user  :  " + pressure);
 						 }
 						 } 
