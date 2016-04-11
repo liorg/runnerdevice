@@ -2,6 +2,7 @@ package il.co.runnerdevice.Api;
 
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -27,4 +28,7 @@ public interface ShipApi {
 	    	@Field("refresh_token") String refresh_token,
 	    	@Field("client_id") String client_id,
 	    	@Field("grant_type") String grant_type);
+	 
+	 @POST("api/ship/UpdateWhoAmI")
+	    Call<WhoAmIResponse> UpdateWhoAmI(@Body WhoAmI body);
 }

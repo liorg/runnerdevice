@@ -11,7 +11,10 @@ import il.co.runnerdevice.Pojo.WhoAmIResponse;
 import il.co.runnerdevice.Services.SessionService;
 import il.co.runnerdevice.Utils.CommonUtilities;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,6 +41,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -75,9 +79,10 @@ import com.google.android.gcm.GCMRegistrar;
 public class WhoAmIActivity  extends FragmentActivity {
 	  String url = CommonUtilities.URL;
 	    TextView  txt_pressure;
+	    TextView  txt_time;
 		// Session Manager Class
 		SessionService session;
-		  private AccountManager mAccountManager;
+	    AccountManager mAccountManager;
 		
 	@SuppressLint("NewApi")
 	@Override
@@ -85,8 +90,7 @@ public class WhoAmIActivity  extends FragmentActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_retrofit);
-		 mAccountManager =  AccountManager.get(this);
-		 
+	    mAccountManager =  AccountManager.get(this);
 		 
 		Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
 		if(accounts.length==0)
@@ -98,6 +102,10 @@ public class WhoAmIActivity  extends FragmentActivity {
 		session = new SessionService(getApplicationContext()); 
 		
 		txt_pressure = (TextView) findViewById(R.id.txt_press);
+		txt_time  = (TextView) findViewById(R.id.txt_time);
+		 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    	 Calendar cal = Calendar.getInstance();
+    	 txt_time.setText("begin time  : "+cal.getTime());
 		  //getReport();
 		Account account = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
 		getWhoAmi2(account);
@@ -107,25 +115,30 @@ public class WhoAmIActivity  extends FragmentActivity {
 	            @Override
 	            public void onClick(View v) {
 	            	 txt_pressure.setText("user  : ... " );
-		            	Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
-		        		if(accounts.length==0)
+	            	 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	            	 Calendar cal = Calendar.getInstance();
+	            	 txt_time.setText("time  : "+cal.getTime());
+		             Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+		             if(accounts==null){
+		            	   Log.d("runnerdevice", "no has any accounts account ");
+		             }
+		        	  if(accounts.length==0)
 		        		{
 		        		// Toast.makeText(getApplicationContext(), "no has account");
 		        	          Log.d("runnerdevice", "no has account ");
 		        		    addNewAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
 		        		}
 		        		else{
+		        			   Log.d("runnerdevice", "account getWhoAmi2 ");
+		        			   
 		        			getWhoAmi2(accounts[0]);
 		        		}
 	            }
 	        });
-		
-		
-		
 	}
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	   public boolean onCreateOptionsMenu(Menu menu) {
 	      getMenuInflater().inflate(R.menu.main, menu);
 	      return true;
 	   }
@@ -157,7 +170,8 @@ public class WhoAmIActivity  extends FragmentActivity {
 							// _session.RedirctToLogin();
 						 }
 						 else{
-		                    String pressure = arg1.body().getModel().getFullName();
+		                    String pressure = arg1.body().getModel().getFullName() +"("+arg1.body().getModel().getFirstName()+")";
+		                    
 		                    txt_pressure.setText("user  :  " + pressure);
 						 }
 						 } 
@@ -169,11 +183,7 @@ public class WhoAmIActivity  extends FragmentActivity {
 	        	 });
    }
 	
-	 /**
-     * Add new account to the account manager
-     * @param accountType
-     * @param authTokenType
-     */
+	
     private void addNewAccount(String accountType, String authTokenType) {
         final AccountManagerFuture<Bundle> future = mAccountManager.addAccount(accountType, authTokenType, null, null, this, new AccountManagerCallback<Bundle>() {
             @Override

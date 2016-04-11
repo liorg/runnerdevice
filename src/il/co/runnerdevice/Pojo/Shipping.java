@@ -2,6 +2,7 @@ package il.co.runnerdevice.Pojo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 public class Shipping {
 
 @SerializedName("Id")

@@ -30,4 +30,5 @@ public class AccountGeneral {
     public static  final String PARAM_USER_ID= "PUSER_ID";
     public static  final String PARAM_ROLES= "PROLES";
     public static  final String PARAM_PWS= "PWS";
+  //  public static  final String PARAM_USER_NAME= "USER_NAME";
 }

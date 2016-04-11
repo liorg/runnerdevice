@@ -215,6 +215,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
             mAccountManager.setUserData(account, AccountGeneral.PARAM_USER_ID, userID);
             mAccountManager.setUserData(account, AccountGeneral.PARAM_ROLES, roleID);
             mAccountManager.setUserData(account,AccountGeneral.PARAM_PWS, accountPassword);
+           // mAccountManager.setUserData(account,AccountGeneral.PARAM_USER_NAME, accountName);
            // Log.d("runnerdevice", TAG + "> finishLogin > setPassword(1)");
             //mAccountManager.setPassword(account, accountPassword);
             
