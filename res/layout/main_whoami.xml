@@ -17,8 +17,8 @@
       tools:context=".MainActivity" />
    
      <EditText 
-        android:id="@+id/editFirstName"
-           android:singleLine="true"   android:text="FirstName"
+        android:id="@+id/editFirstName" android:singleLine="true"  
+        android:text="FirstName"
         android:layout_width="match_parent"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
@@ -41,21 +41,21 @@
             android:singleLine="true" 
               android:text="send sync"
             />
-      
-        <TextView
-              android:singleLine="true"
+       <Button android:id="@+id/btnsendasyncwhoami"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+            android:singleLine="true" 
+              android:text="send async"
+            />
+    <TextView android:singleLine="true"
         android:id="@+id/txt_press"
-      
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-      
         android:text="who" />
-    <TextView
-        android:id="@+id/txt_time"
- android:singleLine="true"
+    
+    <TextView  android:id="@+id/txt_time" android:singleLine="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-    
         android:text="00:00" />
     
    <Button android:id="@+id/btnwhoami"

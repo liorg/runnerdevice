@@ -12,23 +12,20 @@ import il.co.runnerdevice.Pojo.*;
 public interface ShipApi {
 	
 	 @GET("api/ship/whoami")
-	    Call<WhoAmIResponse> WhoAmi();
+	 Call<WhoAmIResponse> WhoAmi();
 	 
 	 @POST("token")
 	 @FormUrlEncoded
-	    Call<AccessToken> Login( 
+	 Call<AccessToken> Login( 
 	    		@Field("username") String username,
 	    		@Field("password") String password,
 	    		@Field("client_id") String client_id,
 	    		@Field("grant_type") String grant_type);
 	
-	 @POST("token")
-	 @FormUrlEncoded
-	 Call<AccessToken> RefreshToken( 
-	    	@Field("refresh_token") String refresh_token,
-	    	@Field("client_id") String client_id,
-	    	@Field("grant_type") String grant_type);
-	 
+	
 	 @POST("api/ship/UpdateWhoAmI")
-	    Call<WhoAmIResponse> UpdateWhoAmI(@Body WhoAmI body);
+	Call<WhoAmIResponse> UpdateWhoAmI(@Body WhoAmI body);
+	 
+	 @POST("api/ship/UpdateWhoAmISync")
+	Call<ItemSyncGeneric<WhoAmI>> UpdateWhoAmISync(@Body ItemSyncGeneric<WhoAmI> body);
 }

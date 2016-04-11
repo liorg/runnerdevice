@@ -6,10 +6,14 @@ import il.co.runnerdevice.Api.ServiceGenerator;
 import il.co.runnerdevice.Api.ShipApi;
 import il.co.runnerdevice.Authentication.AccountGeneral;
 import il.co.runnerdevice.Pojo.AccessToken;
+import il.co.runnerdevice.Pojo.ItemSyncGeneric;
 import il.co.runnerdevice.Pojo.WhoAmI;
 import il.co.runnerdevice.Pojo.WhoAmIResponse;
 import il.co.runnerdevice.Services.SessionService;
 import il.co.runnerdevice.Utils.CommonUtilities;
+import il.co.runnerdevice.Utils.ObjectTableCode;
+import il.co.runnerdevice.Utils.SyncStateRecord;
+import il.co.runnerdevice.Utils.SyncStatus;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -142,6 +146,30 @@ public class MainActivity  extends FragmentActivity {
 		        		}
 	            }
 	        });
+		 findViewById(R.id.btnsendasyncwhoami).setOnClickListener(new View.OnClickListener() {
+	            @Override
+	            public void onClick(View v) {
+	            	 txt_pressure.setText("user  : ... " );
+	            	 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	            	 Calendar cal = Calendar.getInstance();
+	            	 txt_time.setText("time  : "+cal.getTime());
+		             Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+		             if(accounts==null){
+		            	   Log.d("runnerdevice", "no has any accounts account ");
+		             }
+		        	  if(accounts.length==0)
+		        		{
+		        		// Toast.makeText(getApplicationContext(), "no has account");
+		        	          Log.d("runnerdevice", "no has account ");
+		        		    addNewAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+		        		}
+		        		else{
+		        			   Log.d("runnerdevice", "account getWhoAmi2 ");
+		        			   
+		        			   saveAync(accounts[0]);
+		        		}
+	            }
+	        });
 		 
 		 findViewById(R.id.btnsendsyncwhoami).setOnClickListener(new View.OnClickListener() {
 	            @Override
@@ -169,11 +197,72 @@ public class MainActivity  extends FragmentActivity {
 	        });
 	}
 	
+	
 	@Override
 	   public boolean onCreateOptionsMenu(Menu menu) {
 	      getMenuInflater().inflate(R.menu.main, menu);
 	      return true;
 	   }
+	
+	void saveAync(Account account) {
+		 Retrofit retrofit = new Retrofit.Builder()
+	       .baseUrl(url)
+	       .addConverterFactory(GsonConverterFactory.create())
+	       .build();
+			WhoAmI who=new WhoAmI();
+			who.setUserId(mAccountManager.getUserData(account, AccountGeneral.PARAM_USER_ID));
+			who.setUserName(account.name);
+			who.setFirstName(txt_firstName.getText().toString());
+			who.setLastName(txt_lastName.getText().toString());
+			who.setFullName("");
+			
+			ItemSyncGeneric<WhoAmI> itemSync=new ItemSyncGeneric<WhoAmI>();
+			itemSync.setClientId(AccountGeneral.CLIENT_ID);
+			itemSync.setDeviceId("");
+			itemSync.setLastUpdateRecord("2015-01-01");
+			itemSync.setSyncStateRecord(ObjectTableCode.USER);
+			itemSync.setSyncStatus(SyncStatus.SyncFromClient);
+			itemSync.setSyncStateRecord(SyncStateRecord.Change);
+			itemSync.setSyncObject(who);
+			
+			ShipApi loginService =  ServiceGenerator.createService(ShipApi.class, mAccountManager,account);
+			 
+		    Call<WhoAmIResponse> call = loginService.UpdateWhoAmI(who);
+
+		    call.enqueue(new Callback<WhoAmIResponse>() {	 
+					@Override
+					public void onFailure(Call<WhoAmIResponse> arg0, Throwable arg1) {
+						// TODO Auto-generated method stub
+					}
+					@Override
+					public void onResponse(Call<WhoAmIResponse> arg0,
+							Response<WhoAmIResponse> arg1) {
+						// TODO Auto-generated method stub
+						 try {
+							 if(!arg1.body().isIsAuthenticated()){
+								 txt_pressure.setText("user  : NO Authenticated " );
+							 addNewAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+								// _session.RedirctToLogin();
+							 }
+							 else{
+			                    String pressure = arg1.body().getModel().getFullName() +"("+arg1.body().getModel().getFirstName()+")";
+			                    String first = arg1.body().getModel().getFirstName();
+			                    String last = arg1.body().getModel().getLastName();
+			                    m_Who=arg1.body().getModel();
+			                    
+			                    txt_pressure.setText("user  :  " + pressure);
+			                	txt_firstName.setText(first);
+			                	txt_lastName.setText(last);
+							 }
+							 } 
+						 catch (Exception e) {
+			                    e.printStackTrace();
+			                }
+						
+					}
+		        	 });
+		
+     } 
 	
 	void saveSync(Account account) {
 		

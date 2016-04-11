@@ -15,7 +15,9 @@ import android.util.Log;
  * Helper class providing methods and constants common to other classes in the
  * app.
  */
-public final class CommonUtilities {
+public final class CommonUtilities 
+{
+	
 	public static final String URL = "http://testkipo.kipodeal.co.il";
 
     /**
