@@ -25,6 +25,6 @@ public interface ShipApi {
 	Call<ResponseItem<WhoAmI>> UpdateWhoAmI(@Body WhoAmI body);
 
 	@POST("api/ship/UpdateWhoAmISync")
-	Call<ItemSyncGeneric<WhoAmI>> UpdateWhoAmISync(
+	Call<ResponseItem<ItemSyncGeneric<WhoAmI>>> UpdateWhoAmISync(
 			@Body ItemSyncGeneric<WhoAmI> body);
 }
