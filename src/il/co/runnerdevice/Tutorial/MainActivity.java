@@ -51,6 +51,7 @@ import static il.co.runnerdevice.Tutorial.CommonUtilities.EXTRA_MESSAGE;
 import static il.co.runnerdevice.Tutorial.CommonUtilities.SENDER_ID;
 import static il.co.runnerdevice.Tutorial.CommonUtilities.SERVER_URL;
 import il.co.runnerdevice.R;
+
 public class MainActivity extends FragmentActivity {
 
 	String[] menutitles;
@@ -66,38 +67,41 @@ public class MainActivity extends FragmentActivity {
 
 	private List<RowItem> rowItems;
 	private CustomAdapter adapter;
-	
+
 	// Alert Dialog Manager
 	AlertDialogManager alert = new AlertDialogManager();
-			
-   // Session Manager Class
+
+	// Session Manager Class
 	SessionManager session;
-	
+
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		checkNotNull(SERVER_URL, "SERVER_URL");
-	    checkNotNull(SENDER_ID, "SENDER_ID");
-	    // Make sure the device has the proper dependencies.
-	    GCMRegistrar.checkDevice(this);
-	    // Make sure the manifest was properly set - comment out this line
-	    // while developing the app, then uncomment it when it's ready.
-	    GCMRegistrar.checkManifest(this);
-	    
-	    registerReceiver(mHandleMessageReceiver,  new IntentFilter(DISPLAY_MESSAGE_ACTION));    
-		  // Session class instance
-        session = new SessionManager(getApplicationContext());
-        
-        Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
-        
-        session.checkLogin();
-        
-        // get user data from session
-        HashMap<String, String> user = session.getUserDetails();
+		checkNotNull(SENDER_ID, "SENDER_ID");
+		// Make sure the device has the proper dependencies.
+		GCMRegistrar.checkDevice(this);
+		// Make sure the manifest was properly set - comment out this line
+		// while developing the app, then uncomment it when it's ready.
+		GCMRegistrar.checkManifest(this);
+
+		registerReceiver(mHandleMessageReceiver, new IntentFilter(
+				DISPLAY_MESSAGE_ACTION));
+		// Session class instance
+		session = new SessionManager(getApplicationContext());
+
+		Toast.makeText(getApplicationContext(),
+				"User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG)
+				.show();
+
+		session.checkLogin();
+
+		// get user data from session
+		HashMap<String, String> user = session.getUserDetails();
 		mTitle = mDrawerTitle = getTitle();
 
 		menutitles = getResources().getStringArray(R.array.titles);
@@ -160,20 +164,23 @@ public class MainActivity extends FragmentActivity {
 		}
 
 	}
-	MyShip_Fragment fragmentShip=null;
+
+	MyShip_Fragment fragmentShip = null;
+
 	private void updateDisplay(int position) {
 		Fragment fragment = null;
 		switch (position) {
 		case 0:
-			//if (fragment ==null || fragment.getClass().isInstance(MyShip_Fragment.class) ) {
-				//fragment = new MyShip_Fragment();
-				//}
-			if(fragmentShip==null){
-				fragmentShip=new MyShip_Fragment();
-			//	fragmentShip.RetryRefreshData(session);
+			// if (fragment ==null ||
+			// fragment.getClass().isInstance(MyShip_Fragment.class) ) {
+			// fragment = new MyShip_Fragment();
+			// }
+			if (fragmentShip == null) {
+				fragmentShip = new MyShip_Fragment();
+				// fragmentShip.RetryRefreshData(session);
 			}
-			fragment=(MyShip_Fragment)fragmentShip;
-			
+			fragment = (MyShip_Fragment) fragmentShip;
+
 			break;
 		case 1:
 			fragment = new About_Fragment();
@@ -186,10 +193,12 @@ public class MainActivity extends FragmentActivity {
 		}
 
 		if (fragment != null) {
-			
+
 			switchContent(fragment);
-			//android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-			//fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+			// android.support.v4.app.FragmentManager fragmentManager =
+			// getSupportFragmentManager();
+			// fragmentManager.beginTransaction().replace(R.id.frame_container,
+			// fragment).commit();
 
 			// update selected item and title, then close the drawer
 			setTitle(menutitles[position]);
@@ -257,42 +266,42 @@ public class MainActivity extends FragmentActivity {
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
-	
-	 private void checkNotNull(Object reference, String name) {
-	        if (reference == null) {
-	            throw new NullPointerException(
-	                    getString(R.string.error_config, name));
-	        }
-	 }
-	 
-	 private final BroadcastReceiver mHandleMessageReceiver =
-	            new BroadcastReceiver() {
-	        @Override
-	        public void onReceive(Context context, Intent intent) {
-	            String newMessage = intent.getExtras().getString(EXTRA_MESSAGE);
-	            //throw new NullPointerException("return value is null at method AAA");
-	          
-	            MyShip_Fragment fragment = (MyShip_Fragment)getSupportFragmentManager().findFragmentByTag(MyShip_Fragment.class.getSimpleName());
-	            if(fragment==null) // if the fragment  is not showing, show it
-	            {
-	            	fragment=new MyShip_Fragment();
-	            }
-	            fragment.RefreshData(session);
-	            switchContent(fragment);
-	           
-	           
-	         	
-	        }
-	    };
-	    
-	  //Switches views
-	    public void switchContent(final Fragment fragment) {
-	       getSupportFragmentManager()
-	       .beginTransaction()
-	       .replace(R.id.frame_container, fragment, fragment.getClass().getSimpleName())
-	       .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-	       .addToBackStack(fragment.getClass().getSimpleName())
-	       .commitAllowingStateLoss();
-	    }
+
+	private void checkNotNull(Object reference, String name) {
+		if (reference == null) {
+			throw new NullPointerException(getString(R.string.error_config,
+					name));
+		}
+	}
+
+	private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String newMessage = intent.getExtras().getString(EXTRA_MESSAGE);
+			// throw new
+			// NullPointerException("return value is null at method AAA");
+
+			MyShip_Fragment fragment = (MyShip_Fragment) getSupportFragmentManager()
+					.findFragmentByTag(MyShip_Fragment.class.getSimpleName());
+			if (fragment == null) // if the fragment is not showing, show it
+			{
+				fragment = new MyShip_Fragment();
+			}
+			fragment.RefreshData(session);
+			switchContent(fragment);
+
+		}
+	};
+
+	// Switches views
+	public void switchContent(final Fragment fragment) {
+		getSupportFragmentManager()
+				.beginTransaction()
+				.replace(R.id.frame_container, fragment,
+						fragment.getClass().getSimpleName())
+				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+				.addToBackStack(fragment.getClass().getSimpleName())
+				.commitAllowingStateLoss();
+	}
 
 }

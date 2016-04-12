@@ -1,8 +1,8 @@
 package il.co.runnerdevice.Pojo;
 
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 public class Address {
 
 	@SerializedName("UId")
@@ -37,91 +37,83 @@ public class Address {
 	private boolean IsSensor;
 
 	public Object getUId() {
-	return UId;
+		return UId;
 	}
 
 	public void setUId(Object UId) {
-	this.UId = UId;
+		this.UId = UId;
 	}
 
 	public String getStreet() {
-	return Street;
+		return Street;
 	}
-	
+
 	public void setStreet(String Street) {
-	this.Street = Street;
+		this.Street = Street;
 	}
 
 	public String getStreetcode() {
-	return Streetcode;
+		return Streetcode;
 	}
 
 	public void setStreetcode(String Streetcode) {
-	this.Streetcode = Streetcode;
+		this.Streetcode = Streetcode;
 	}
 
-
 	public String getCity() {
-	return City;
+		return City;
 	}
 
 	public void setCity(String City) {
-	this.City = City;
+		this.City = City;
 	}
 
 	public String getCitycode() {
-	return Citycode;
+		return Citycode;
 	}
 
 	public void setCitycode(String Citycode) {
-	this.Citycode = Citycode;
+		this.Citycode = Citycode;
 	}
 
 	public String getNum() {
-	return Num;
+		return Num;
 	}
 
 	public void setNum(String Num) {
-	this.Num = Num;
+		this.Num = Num;
 	}
 
 	public Object getExtraDetail() {
-	return ExtraDetail;
+		return ExtraDetail;
 	}
 
 	public void setExtraDetail(Object ExtraDetail) {
-	this.ExtraDetail = ExtraDetail;
+		this.ExtraDetail = ExtraDetail;
 	}
 
 	public double getLat() {
-	return Lat;
+		return Lat;
 	}
 
-	
 	public void setLat(double Lat) {
-	this.Lat = Lat;
+		this.Lat = Lat;
 	}
 
-	
 	public double getLng() {
-	return Lng;
+		return Lng;
 	}
 
 	public void setLng(double Lng) {
-	this.Lng = Lng;
+		this.Lng = Lng;
 	}
 
-	
 	public boolean isIsSensor() {
-	return IsSensor;
+		return IsSensor;
 	}
 
-	
 	public void setIsSensor(boolean IsSensor) {
-	this.IsSensor = IsSensor;
+		this.IsSensor = IsSensor;
 	}
 
-	}
-
-
-
+}

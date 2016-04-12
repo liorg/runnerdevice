@@ -8,8 +8,8 @@
         android:id="@+id/profile_pic"
         android:layout_width="70dp"
         android:layout_height="70dp"
+        android:layout_alignParentRight="true"
         android:contentDescription="desc"
-         android:layout_alignParentRight="true"
         android:paddingLeft="10dp"
         android:paddingRight="10dp" />
 
@@ -17,10 +17,10 @@
         android:id="@+id/member_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/status"
         android:layout_marginTop="10dp"
         android:layout_toLeftOf="@+id/profile_pic"
         android:paddingBottom="10dp"
-        android:layout_below="@+id/status"
         android:text="txt"
         android:textSize="16sp" />
 
@@ -29,7 +29,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/member_name"
-  
         android:text="txt"
         android:textSize="20sp" />
 

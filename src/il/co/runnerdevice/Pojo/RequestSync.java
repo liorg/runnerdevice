@@ -3,31 +3,29 @@ package il.co.runnerdevice.Pojo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RequestSync
-{
+public class RequestSync {
 
 	@SerializedName("DeviceId")
 	@Expose
 	private String DeviceId;
 	@SerializedName("ClientId")
 	@Expose
-	
-     private String ClientId;
+	private String ClientId;
 
 	public String getDeviceId() {
-	return DeviceId;
+		return DeviceId;
 	}
 
 	public void setDeviceId(String DeviceId) {
-	this.DeviceId = DeviceId;
+		this.DeviceId = DeviceId;
 	}
 
 	public String getClientId() {
-	return ClientId;
+		return ClientId;
 	}
-	
+
 	public void setClientId(String ClientId) {
-	this.ClientId = ClientId;
+		this.ClientId = ClientId;
 	}
 
 }

@@ -1,6 +1,5 @@
 package il.co.runnerdevice.Tutorial;
 
-
 import java.util.List;
 
 import android.app.Activity;
@@ -12,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import il.co.runnerdevice.R;
+
 public class CustomAdapter extends BaseAdapter {
 
 	Context context;

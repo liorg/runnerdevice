@@ -79,7 +79,7 @@ import android.widget.ListView;
 import com.google.android.gcm.GCMRegistrar;
 
 //http://www.androidwarriors.com/2015/12/retrofit-20-android-example-web.html
-public class MainActivity extends FragmentActivity {
+public class WhoAmIActivity extends FragmentActivity {
 	String url = CommonUtilities.URL;
 	TextView txt_pressure;
 	TextView txt_time;

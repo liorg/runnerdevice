@@ -3,37 +3,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dip">
+    android:padding="10dip" >
 
-   	<!-- Email Label -->
+    <!-- Email Label -->
+
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="שם משתמש"
+        android:layout_marginBottom="5dip"
         android:singleLine="true"
-        android:layout_marginBottom="5dip"/>
-    
+        android:text="שם משתמש" />
+
     <!-- Email input text -->
-    <EditText android:id="@+id/txtUsername"
+
+    <EditText
+        android:id="@+id/txtUsername"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dip"/>
-    
+        android:layout_marginBottom="10dip" />
+
     <!-- Password Label -->
+
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="סיסמא"
-        android:layout_marginBottom="5dip"/>
-    
+        android:layout_marginBottom="5dip"
+        android:text="סיסמא" />
+
     <!-- Password input text -->
-    <EditText android:id="@+id/txtPassword"
+
+    <EditText
+        android:id="@+id/txtPassword"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dip"
         android:password="true"
-        android:singleLine="true"/>
-    
+        android:singleLine="true" />
+
     <!-- Login button -->
 
     <Button

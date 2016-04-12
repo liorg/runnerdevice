@@ -1,68 +1,76 @@
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dip">
-    
-   
-   <TextView 
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_centerHorizontal="true"
-      android:layout_centerVertical="true"
-       android:singleLine="true"
-      android:text="@string/hello_world"
-      tools:context=".MainActivity" />
-   
-     <EditText 
-        android:id="@+id/editFirstName" android:singleLine="true"  
-        android:text="FirstName"
-        android:layout_width="match_parent"
+    android:padding="10dip" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_height="wrap_content" >
+        android:singleLine="true"
+        android:text="@string/hello_world"
+        tools:context=".MainActivity" />
+
+    <EditText
+        android:id="@+id/editFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:singleLine="true"
+        android:text="FirstName" >
+
         <requestFocus />
     </EditText>
-    
-    <EditText 
+
+    <EditText
         android:id="@+id/editLastName"
-        android:singleLine="true"   android:text="LastName"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_height="wrap_content" >
+        android:singleLine="true"
+        android:text="LastName" >
+
         <requestFocus />
     </EditText>
-      <Button android:id="@+id/btnsendsyncwhoami"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-            android:singleLine="true" 
-              android:text="send sync"
-            />
-       <Button android:id="@+id/btnsendasyncwhoami"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-            android:singleLine="true" 
-              android:text="send async"
-            />
-    <TextView android:singleLine="true"
+
+    <Button
+        android:id="@+id/btnsendsyncwhoami"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:text="send sync" />
+
+    <Button
+        android:id="@+id/btnsendasyncwhoami"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:text="send async" />
+
+    <TextView
         android:id="@+id/txt_press"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:singleLine="true"
         android:text="who" />
-    
-    <TextView  android:id="@+id/txt_time" android:singleLine="true"
+
+    <TextView
+        android:id="@+id/txt_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:singleLine="true"
         android:text="00:00" />
-    
-   <Button android:id="@+id/btnwhoami"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-             android:singleLine="true"
-              android:text="whoami"
-             />
-           
+
+    <Button
+        android:id="@+id/btnwhoami"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:text="whoami" />
+
 </LinearLayout>
