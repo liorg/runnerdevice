@@ -1,6 +1,6 @@
 package il.co.runnerdevice.Pojo;
 
-public class ResponseGeneric<T> extends ResponseBase {
+public class ResponseItem<T> extends ResponseBase {
 	protected T Model;
 	public T getModel() {
 		return Model;

@@ -12,7 +12,7 @@ import il.co.runnerdevice.Pojo.*;
 public interface ShipApi {
 	
 	 @GET("api/ship/whoami")
-	 Call<WhoAmIResponse> WhoAmi();
+	 Call<ResponseItem<WhoAmI>> WhoAmi();
 	 
 	 @POST("token")
 	 @FormUrlEncoded
@@ -24,7 +24,7 @@ public interface ShipApi {
 	
 	
 	 @POST("api/ship/UpdateWhoAmI")
-	Call<WhoAmIResponse> UpdateWhoAmI(@Body WhoAmI body);
+	Call<ResponseItem<WhoAmI>> UpdateWhoAmI(@Body WhoAmI body);
 	 
 	 @POST("api/ship/UpdateWhoAmISync")
 	Call<ItemSyncGeneric<WhoAmI>> UpdateWhoAmISync(@Body ItemSyncGeneric<WhoAmI> body);

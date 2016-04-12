@@ -7,8 +7,9 @@ import il.co.runnerdevice.Api.ShipApi;
 import il.co.runnerdevice.Authentication.AccountGeneral;
 import il.co.runnerdevice.Pojo.AccessToken;
 import il.co.runnerdevice.Pojo.ItemSyncGeneric;
+import il.co.runnerdevice.Pojo.ResponseItem;
 import il.co.runnerdevice.Pojo.WhoAmI;
-import il.co.runnerdevice.Pojo.WhoAmIResponse;
+
 import il.co.runnerdevice.Services.SessionService;
 import il.co.runnerdevice.Utils.CommonUtilities;
 import il.co.runnerdevice.Utils.ObjectTableCode;
@@ -227,16 +228,16 @@ public class MainActivity  extends FragmentActivity {
 			
 			ShipApi loginService =  ServiceGenerator.createService(ShipApi.class, mAccountManager,account);
 			 
-		    Call<WhoAmIResponse> call = loginService.UpdateWhoAmI(who);
+		    Call<ResponseItem<WhoAmI>> call = loginService.UpdateWhoAmI(who);
 
-		    call.enqueue(new Callback<WhoAmIResponse>() {	 
+		    call.enqueue(new Callback<ResponseItem<WhoAmI>>() {	 
 					@Override
-					public void onFailure(Call<WhoAmIResponse> arg0, Throwable arg1) {
+					public void onFailure(Call<ResponseItem<WhoAmI>> arg0, Throwable arg1) {
 						// TODO Auto-generated method stub
 					}
 					@Override
-					public void onResponse(Call<WhoAmIResponse> arg0,
-							Response<WhoAmIResponse> arg1) {
+					public void onResponse(Call<ResponseItem<WhoAmI>> arg0,
+							Response<ResponseItem<WhoAmI>> arg1) {
 						// TODO Auto-generated method stub
 						 try {
 							 if(!arg1.body().isIsAuthenticated()){
@@ -245,7 +246,7 @@ public class MainActivity  extends FragmentActivity {
 								// _session.RedirctToLogin();
 							 }
 							 else{
-			                    String pressure = arg1.body().getModel().getFullName() +"("+arg1.body().getModel().getFirstName()+")";
+			                    String pressure = arg1.body().getModel().getFullName() +"("+arg1.body().getModel().getFirstName()+ " "+arg1.body().getModel().getLastName()+ ")";
 			                    String first = arg1.body().getModel().getFirstName();
 			                    String last = arg1.body().getModel().getLastName();
 			                    m_Who=arg1.body().getModel();
@@ -280,16 +281,16 @@ public class MainActivity  extends FragmentActivity {
 		 
 		 ShipApi loginService =  ServiceGenerator.createService(ShipApi.class, mAccountManager,account);
 		 
-	     Call<WhoAmIResponse> call = loginService.UpdateWhoAmI(who);
+	     Call<ResponseItem<WhoAmI>> call = loginService.UpdateWhoAmI(who);
 
-	     call.enqueue(new Callback<WhoAmIResponse>() {	 
+	     call.enqueue(new Callback<ResponseItem<WhoAmI>>() {	 
 				@Override
-				public void onFailure(Call<WhoAmIResponse> arg0, Throwable arg1) {
+				public void onFailure(Call<ResponseItem<WhoAmI>> arg0, Throwable arg1) {
 					// TODO Auto-generated method stub
 				}
 				@Override
-				public void onResponse(Call<WhoAmIResponse> arg0,
-						Response<WhoAmIResponse> arg1) {
+				public void onResponse(Call<ResponseItem<WhoAmI>> arg0,
+						Response<ResponseItem<WhoAmI>> arg1) {
 					// TODO Auto-generated method stub
 					 try {
 						 if(!arg1.body().isIsAuthenticated()){
@@ -298,8 +299,8 @@ public class MainActivity  extends FragmentActivity {
 							// _session.RedirctToLogin();
 						 }
 						 else{
-		                    String pressure = arg1.body().getModel().getFullName() +"("+arg1.body().getModel().getFirstName()+")";
-		                    String first = arg1.body().getModel().getFirstName();
+							 String pressure = arg1.body().getModel().getFullName() +"("+arg1.body().getModel().getFirstName()+ " "+arg1.body().getModel().getLastName()+ ")";
+			                 String first = arg1.body().getModel().getFirstName();
 		                    String last = arg1.body().getModel().getLastName();
 		                    m_Who=arg1.body().getModel();
 		                    
@@ -325,16 +326,16 @@ public class MainActivity  extends FragmentActivity {
 		 
 		 ShipApi loginService =  ServiceGenerator.createService(ShipApi.class, mAccountManager,account);
 		 
-	     Call<WhoAmIResponse> call = loginService.WhoAmi();
+	     Call<ResponseItem<WhoAmI>> call = loginService.WhoAmi();
 
-	     call.enqueue(new Callback<WhoAmIResponse>() {	 
+	     call.enqueue(new Callback<ResponseItem<WhoAmI>>() {	 
 				@Override
-				public void onFailure(Call<WhoAmIResponse> arg0, Throwable arg1) {
+				public void onFailure(Call<ResponseItem<WhoAmI>> arg0, Throwable arg1) {
 					// TODO Auto-generated method stub
 				}
 				@Override
-				public void onResponse(Call<WhoAmIResponse> arg0,
-						Response<WhoAmIResponse> arg1) {
+				public void onResponse(Call<ResponseItem<WhoAmI>> arg0,
+						Response<ResponseItem<WhoAmI>> arg1) {
 					// TODO Auto-generated method stub
 					 try {
 						 if(!arg1.body().isIsAuthenticated()){
