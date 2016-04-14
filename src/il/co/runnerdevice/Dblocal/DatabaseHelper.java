@@ -19,31 +19,31 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
 	 
     // Logcat tag
-    private static final String LOG = "DatabaseHelper";
+    public static final String LOG = "DatabaseHelper";
  
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 1;
  
     // Database Name
-    private static final String DATABASE_NAME = "shippingManager";
+    public static final String DATABASE_NAME = "shippingManager";
  
     // Table Names
-    private static final String TABLE_USER = "user";
+    public static final String TABLE_USER = "user";
   
     // Common column names
-    private static final String KEY_ID = "id";
-    private static final String KEY_CREATED_AT = "created_at";
+    public static final String KEY_ID = "id";
+    public static final String KEY_CREATED_AT = "created_at";
  
     // user Table - column nmaes
-    private static final String KEY_FIRSTNAME = "firstname";
-    private static final String KEY_LASTNAME = "lastname";
-    private static final String KEY_USERID = "userid";
+    public static final String KEY_FIRSTNAME = "firstname";
+    public static final String KEY_LASTNAME = "lastname";
+    public static final String KEY_USERID = "userid";
     // TAGS Table - column names
-    private static final String KEY_TAG_USERNAME= "username";
+    public static final String KEY_TAG_USERNAME= "username";
 
     // Table Create Statements
     // Todo table create statement
-    private static final String CREATE_TABLE_TODO = "CREATE TABLE "
+    private static final String CREATE_TABLE_USER= "CREATE TABLE "
             + TABLE_USER  
             + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
     		+ KEY_TAG_USERNAME + " TEXT," 
@@ -58,19 +58,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
  
     @Override
     public void onCreate(SQLiteDatabase db) {
- 
         // creating required tables
-        db.execSQL(CREATE_TABLE_TODO);
-     
+        db.execSQL(CREATE_TABLE_USER);
     }
  
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // on upgrade drop older tables
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
-      
- 
         // create new tables
         onCreate(db);
     }
+    public boolean UpdateUser (String firstname, String lastname, String userid)
+    {
+       SQLiteDatabase db = this.getWritableDatabase();
+       ContentValues contentValues = new ContentValues();
+       contentValues.put(KEY_FIRSTNAME, firstname);
+       contentValues.put(KEY_LASTNAME, lastname);
+       //db.update(table, values, whereClause, whereArgs)
+       db.update(TABLE_USER, contentValues, KEY_USERID+" = ?", new String[]{userid});
+       
+      // db.update(TABLE_USER, contentValues, KEY_USERID+"="+userid,null);//(TABLE_USER, KEY_USERID+userid , contentValues);
+       return true;
+    }
+    public boolean AddUser (String firstname, String lastname, String userid)
+    {
+       SQLiteDatabase db = this.getWritableDatabase();
+       ContentValues contentValues = new ContentValues();
+       contentValues.put(KEY_USERID, firstname);
+       contentValues.put(KEY_FIRSTNAME, firstname);
+       contentValues.put(KEY_LASTNAME, lastname);
+       //db.update(table, values, whereClause, whereArgs)
+       db.insert(TABLE_USER, null, contentValues);
+       
+      // db.update(TABLE_USER, contentValues, KEY_USERID+"="+userid,null);//(TABLE_USER, KEY_USERID+userid , contentValues);
+       return true;
+    }
+    public Cursor getUser(String userid){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from "+TABLE_USER+" where "+KEY_USERID+"="+userid+"", null );
+        return res;
+     }
 }

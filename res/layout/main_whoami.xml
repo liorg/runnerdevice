@@ -44,7 +44,22 @@
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:text="send sync" />
-
+ <Button
+        android:id="@+id/btnsqllite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:text="Add to sql" />
+ 
+     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:singleLine="true"
+          android:id="@+id/fullnamesqllite"
+   
+       />
     <Button
         android:id="@+id/btnsendasyncwhoami"
         android:layout_width="match_parent"
