@@ -49,8 +49,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
-        android:text="Add to sql" />
- 
+       
+        android:text="get to sql" />
+  <Button
+        android:id="@+id/btnupdatesqllite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+  
+        android:text="update to sql" />
      <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

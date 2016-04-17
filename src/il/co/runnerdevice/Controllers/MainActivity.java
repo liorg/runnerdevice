@@ -11,6 +11,7 @@ import il.co.runnerdevice.Pojo.ResponseItem;
 import il.co.runnerdevice.Pojo.WhoAmI;
 
 import il.co.runnerdevice.Services.SessionService;
+import il.co.runnerdevice.Services.UserService;
 import il.co.runnerdevice.Utils.CommonUtilities;
 import il.co.runnerdevice.Utils.ObjectTableCode;
 import il.co.runnerdevice.Utils.SyncStateRecord;
@@ -88,6 +89,7 @@ public class MainActivity extends FragmentActivity {
 	// Session Manager Class
 	SessionService session;
 	AccountManager mAccountManager;
+	UserService mUserService;
 	WhoAmI m_Who = null;
 
 	@SuppressLint("NewApi")
@@ -97,6 +99,7 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_whoami);
 		mAccountManager = AccountManager.get(this);
+		mUserService = new UserService(this);
 
 		Account[] accounts = mAccountManager
 				.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
@@ -122,7 +125,50 @@ public class MainActivity extends FragmentActivity {
 					.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
 			getWhoAmi2(account);
 		}
+		findViewById(R.id.btnsqllite).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Account account = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
+						String userName = account.name;
+						String userId =mAccountManager.getUserData(account,AccountGeneral.PARAM_USER_ID);
+						
+						String firstName=txt_firstName.getText().toString();
+						String lastName=txt_lastName.getText().toString();
+						
+						WhoAmI  who= mUserService.IfGetMeIsEmpty(userId, firstName, lastName, userName);
+						txt_firstName.setText(who.getFirstName());
+						txt_lastName.setText(who.getLastName());
+						String fullname=who.getFirstName()+" "+who.getLastName();
+						txt_pressure.setText("sql  data  :  " + fullname);
+					}
+				});
 
+		findViewById(R.id.btnupdatesqllite).setOnClickListener(
+				new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						Account account = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
+						String userName = account.name;
+						String userId =mAccountManager.getUserData(account,AccountGeneral.PARAM_USER_ID);
+						
+						String firstName=txt_firstName.getText().toString();
+						String lastName=txt_lastName.getText().toString();
+						
+						WhoAmI  who= mUserService.UpdateUser(userId, firstName, lastName, userName);
+						if(who==null)
+							txt_pressure.setText("no has sql  data  :"+ userName +"("+userId+")" );
+						
+						else{
+							txt_firstName.setText(who.getFirstName());
+						txt_lastName.setText(who.getLastName());
+						String fullname=who.getFirstName()+" "+who.getLastName();
+						
+						txt_pressure.setText("sql  update data  :  " + fullname);
+						}
+					}
+				});
 		findViewById(R.id.btnwhoami).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
@@ -142,8 +188,7 @@ public class MainActivity extends FragmentActivity {
 							// Toast.makeText(getApplicationContext(),
 							// "no has account");
 							Log.d("runnerdevice", "no has account ");
-							addNewAccount(AccountGeneral.ACCOUNT_TYPE,
-									AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+							addNewAccount(AccountGeneral.ACCOUNT_TYPE,AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
 						} else {
 							Log.d("runnerdevice", "account getWhoAmi2 ");
 
@@ -160,8 +205,7 @@ public class MainActivity extends FragmentActivity {
 								"yyyy/MM/dd HH:mm:ss");
 						Calendar cal = Calendar.getInstance();
 						txt_time.setText("time  : " + cal.getTime());
-						Account[] accounts = mAccountManager
-								.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+						Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
 						if (accounts == null) {
 							Log.d("runnerdevice",
 									"no has any accounts account ");
@@ -170,8 +214,7 @@ public class MainActivity extends FragmentActivity {
 							// Toast.makeText(getApplicationContext(),
 							// "no has account");
 							Log.d("runnerdevice", "no has account ");
-							addNewAccount(AccountGeneral.ACCOUNT_TYPE,
-									AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+							addNewAccount(AccountGeneral.ACCOUNT_TYPE,AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
 						} else {
 							Log.d("runnerdevice", "account getWhoAmi2 ");
 
@@ -192,15 +235,13 @@ public class MainActivity extends FragmentActivity {
 						Account[] accounts = mAccountManager
 								.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
 						if (accounts == null) {
-							Log.d("runnerdevice",
-									"no has any accounts account ");
+							Log.d("runnerdevice","no has any accounts account ");
 						}
 						if (accounts.length == 0) {
 							// Toast.makeText(getApplicationContext(),
 							// "no has account");
 							Log.d("runnerdevice", "no has account ");
-							addNewAccount(AccountGeneral.ACCOUNT_TYPE,
-									AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+							addNewAccount(AccountGeneral.ACCOUNT_TYPE,AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
 						} else {
 							Log.d("runnerdevice", "account getWhoAmi2 ");
 
@@ -219,7 +260,7 @@ public class MainActivity extends FragmentActivity {
 	void saveAync(Account account) {
 		Retrofit retrofit = new Retrofit.Builder().baseUrl(url)
 				.addConverterFactory(GsonConverterFactory.create()).build();
-		
+
 		WhoAmI who = new WhoAmI();
 		who.setUserId(mAccountManager.getUserData(account,
 				AccountGeneral.PARAM_USER_ID));
@@ -240,17 +281,20 @@ public class MainActivity extends FragmentActivity {
 		ShipApi loginService = ServiceGenerator.createService(ShipApi.class,
 				mAccountManager, account);
 
-		Call<ResponseItem<ItemSyncGeneric<WhoAmI>>> call = loginService.UpdateWhoAmISync(itemSync);
+		Call<ResponseItem<ItemSyncGeneric<WhoAmI>>> call = loginService
+				.UpdateWhoAmISync(itemSync);
 
-		call.enqueue(new Callback<ResponseItem<ItemSyncGeneric<WhoAmI>> >() {
+		call.enqueue(new Callback<ResponseItem<ItemSyncGeneric<WhoAmI>>>() {
 			@Override
-			public void onFailure(Call<ResponseItem<ItemSyncGeneric<WhoAmI>>> arg0,
+			public void onFailure(
+					Call<ResponseItem<ItemSyncGeneric<WhoAmI>>> arg0,
 					Throwable arg1) {
 				// TODO Auto-generated method stub
 			}
 
 			@Override
-			public void onResponse(Call<ResponseItem<ItemSyncGeneric<WhoAmI>>> arg0,
+			public void onResponse(
+					Call<ResponseItem<ItemSyncGeneric<WhoAmI>>> arg0,
 					Response<ResponseItem<ItemSyncGeneric<WhoAmI>>> arg1) {
 				// TODO Auto-generated method stub
 				try {
@@ -260,13 +304,20 @@ public class MainActivity extends FragmentActivity {
 								AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
 						// _session.RedirctToLogin();
 					} else {
-						String pressure = arg1.body().getModel().getSyncObject().getFullName()
-								+ "(" + arg1.body().getModel().getSyncObject().getFirstName()
-								+ " " + arg1.body().getModel().getSyncObject().getLastName()
-								+ ") sync update:" +  arg1.body().getModel().getLastUpdateRecord();
-						String first = arg1.body().getModel().getSyncObject().getFirstName();
-						String last = arg1.body().getModel().getSyncObject().getLastName();
-
+						String pressure = arg1.body().getModel()
+								.getSyncObject().getFullName()
+								+ "("
+								+ arg1.body().getModel().getSyncObject()
+										.getFirstName()
+								+ " "
+								+ arg1.body().getModel().getSyncObject()
+										.getLastName()
+								+ ") sync update:"
+								+ arg1.body().getModel().getLastUpdateRecord();
+						String first = arg1.body().getModel().getSyncObject()
+								.getFirstName();
+						String last = arg1.body().getModel().getSyncObject()
+								.getLastName();
 
 						txt_pressure.setText("user  :  " + pressure);
 						txt_firstName.setText(first);

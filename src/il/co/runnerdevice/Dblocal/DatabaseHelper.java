@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String LOG = "DatabaseHelper";
  
     // Database Version
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
  
     // Database Name
     public static final String DATABASE_NAME = "shippingManager";
@@ -32,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
   
     // Common column names
     public static final String KEY_ID = "id";
-    public static final String KEY_CREATED_AT = "created_at";
+    public static final String KEY_CREATED_AT = "LastUpdateRecord";
  
     // user Table - column nmaes
     public static final String KEY_FIRSTNAME = "firstname";
@@ -40,7 +40,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_USERID = "userid";
     // TAGS Table - column names
     public static final String KEY_TAG_USERNAME= "username";
-
+    public static final String KEY_SyncStatus= "SyncStatus";
+    public static final String KEY_SyncStateRecord= "SyncStateRecord";
     // Table Create Statements
     // Todo table create statement
     private static final String CREATE_TABLE_USER= "CREATE TABLE "
@@ -49,11 +50,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     		+ KEY_TAG_USERNAME + " TEXT," 
             + KEY_FIRSTNAME + " TEXT," 
             + KEY_LASTNAME + " TEXT," 
+            + KEY_SyncStatus + " INTEGER," 
+            + KEY_SyncStateRecord + " INTEGER," 
             + KEY_USERID + " TEXT," 
             + KEY_CREATED_AT + " DATETIME" + ")";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+     //   getReadableDatabase(); 
     }
  
     @Override
@@ -75,28 +79,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
        ContentValues contentValues = new ContentValues();
        contentValues.put(KEY_FIRSTNAME, firstname);
        contentValues.put(KEY_LASTNAME, lastname);
-       //db.update(table, values, whereClause, whereArgs)
        db.update(TABLE_USER, contentValues, KEY_USERID+" = ?", new String[]{userid});
-       
-      // db.update(TABLE_USER, contentValues, KEY_USERID+"="+userid,null);//(TABLE_USER, KEY_USERID+userid , contentValues);
        return true;
     }
-    public boolean AddUser (String firstname, String lastname, String userid)
+    public boolean AddUser (String firstname, String lastname, String userid,String userName)
     {
        SQLiteDatabase db = this.getWritableDatabase();
        ContentValues contentValues = new ContentValues();
-       contentValues.put(KEY_USERID, firstname);
+       contentValues.put(KEY_USERID, userid);
        contentValues.put(KEY_FIRSTNAME, firstname);
        contentValues.put(KEY_LASTNAME, lastname);
-       //db.update(table, values, whereClause, whereArgs)
+       contentValues.put(KEY_TAG_USERNAME, userName);
        db.insert(TABLE_USER, null, contentValues);
-       
-      // db.update(TABLE_USER, contentValues, KEY_USERID+"="+userid,null);//(TABLE_USER, KEY_USERID+userid , contentValues);
        return true;
     }
     public Cursor getUser(String userid){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from "+TABLE_USER+" where "+KEY_USERID+"="+userid+"", null );
+       // Cursor res =  db.rawQuery( "select * from "+TABLE_USER+" where "+KEY_USERID+"='"+userid+"'", null );
+        Cursor res= db.rawQuery("SELECT * FROM " + TABLE_USER + " WHERE " + KEY_USERID + "=?",
+                new String[] { String.valueOf(userid) });
         return res;
      }
 }
