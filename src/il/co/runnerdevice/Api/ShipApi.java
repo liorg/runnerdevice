@@ -6,6 +6,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import il.co.runnerdevice.Pojo.*;
 
 //http://mvnrepository.com/artifact/com.squareup.retrofit/retrofit/2.0.0-beta2
@@ -27,4 +28,11 @@ public interface ShipApi {
 	@POST("api/ship/UpdateWhoAmISync")
 	Call<ResponseItem<ItemSyncGeneric<WhoAmI>>> UpdateWhoAmISync(
 			@Body ItemSyncGeneric<WhoAmI> body);
+	
+	@GET("api/ship/GetWhoAmISync")
+	Call<ResponseItem<ItemSyncGeneric<WhoAmI>>> GetWhoAmISync(
+							@Query("UserId") String userId, 
+							@Query("DeviceId") String deviceId,
+							@Query("ClientId") String clientId
+							);
 }
