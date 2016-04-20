@@ -5,6 +5,9 @@ import il.co.runnerdevice.R;
 import il.co.runnerdevice.Api.ServiceGenerator;
 import il.co.runnerdevice.Api.ShipApi;
 import il.co.runnerdevice.Authentication.AccountGeneral;
+import il.co.runnerdevice.Dblocal.DatabaseHelper;
+import il.co.runnerdevice.Dblocal.ShippingContentProvider;
+import il.co.runnerdevice.Dblocal.ShippingContract;
 import il.co.runnerdevice.Pojo.AccessToken;
 import il.co.runnerdevice.Pojo.ItemSyncGeneric;
 import il.co.runnerdevice.Pojo.ResponseItem;
@@ -39,11 +42,13 @@ import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.FragmentTransaction;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -70,6 +75,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 //import android.app.Activity;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -125,50 +131,62 @@ public class MainActivity extends FragmentActivity {
 					.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
 			getWhoAmi2(account);
 		}
+
 		findViewById(R.id.btnsqllite).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						Account account = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
+						Account account = mAccountManager
+								.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
 						String userName = account.name;
-						String userId =mAccountManager.getUserData(account,AccountGeneral.PARAM_USER_ID);
-						
-						String firstName=txt_firstName.getText().toString();
-						String lastName=txt_lastName.getText().toString();
-						
-						WhoAmI  who= mUserService.IfGetMeIsEmpty(userId, firstName, lastName, userName);
+						String userId = mAccountManager.getUserData(account,
+								AccountGeneral.PARAM_USER_ID);
+
+						String firstName = txt_firstName.getText().toString();
+						String lastName = txt_lastName.getText().toString();
+
+						WhoAmI who = mUserService.IfGetMeIsEmpty(userId,
+								firstName, lastName, userName);
 						txt_firstName.setText(who.getFirstName());
 						txt_lastName.setText(who.getLastName());
-						String fullname=who.getFirstName()+" "+who.getLastName();
+						String fullname = who.getFirstName() + " "
+								+ who.getLastName();
 						txt_pressure.setText("sql  data  :  " + fullname);
 					}
 				});
 
 		findViewById(R.id.btnupdatesqllite).setOnClickListener(
 				new View.OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
-						Account account = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
+						Account account = mAccountManager
+								.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
 						String userName = account.name;
-						String userId =mAccountManager.getUserData(account,AccountGeneral.PARAM_USER_ID);
-						
-						String firstName=txt_firstName.getText().toString();
-						String lastName=txt_lastName.getText().toString();
-						
-						WhoAmI  who= mUserService.UpdateUser(userId, firstName, lastName, userName);
-						if(who==null)
-							txt_pressure.setText("no has sql  data  :"+ userName +"("+userId+")" );
-						
-						else{
+						String userId = mAccountManager.getUserData(account,
+								AccountGeneral.PARAM_USER_ID);
+
+						String firstName = txt_firstName.getText().toString();
+						String lastName = txt_lastName.getText().toString();
+
+						WhoAmI who = mUserService.UpdateUser(userId, firstName,
+								lastName, userName);
+						if (who == null)
+							txt_pressure.setText("no has sql  data  :"
+									+ userName + "(" + userId + ")");
+
+						else {
 							txt_firstName.setText(who.getFirstName());
-						txt_lastName.setText(who.getLastName());
-						String fullname=who.getFirstName()+" "+who.getLastName();
-						
-						txt_pressure.setText("sql  update data  :  " + fullname);
+							txt_lastName.setText(who.getLastName());
+							String fullname = who.getFirstName() + " "
+									+ who.getLastName();
+
+							txt_pressure.setText("sql  update data  :  "
+									+ fullname);
 						}
 					}
 				});
+
 		findViewById(R.id.btnwhoami).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
@@ -188,7 +206,8 @@ public class MainActivity extends FragmentActivity {
 							// Toast.makeText(getApplicationContext(),
 							// "no has account");
 							Log.d("runnerdevice", "no has account ");
-							addNewAccount(AccountGeneral.ACCOUNT_TYPE,AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+							addNewAccount(AccountGeneral.ACCOUNT_TYPE,
+									AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
 						} else {
 							Log.d("runnerdevice", "account getWhoAmi2 ");
 
@@ -196,6 +215,7 @@ public class MainActivity extends FragmentActivity {
 						}
 					}
 				});
+
 		findViewById(R.id.btnsendasyncwhoami).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
@@ -205,7 +225,8 @@ public class MainActivity extends FragmentActivity {
 								"yyyy/MM/dd HH:mm:ss");
 						Calendar cal = Calendar.getInstance();
 						txt_time.setText("time  : " + cal.getTime());
-						Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+						Account[] accounts = mAccountManager
+								.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
 						if (accounts == null) {
 							Log.d("runnerdevice",
 									"no has any accounts account ");
@@ -214,7 +235,8 @@ public class MainActivity extends FragmentActivity {
 							// Toast.makeText(getApplicationContext(),
 							// "no has account");
 							Log.d("runnerdevice", "no has account ");
-							addNewAccount(AccountGeneral.ACCOUNT_TYPE,AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+							addNewAccount(AccountGeneral.ACCOUNT_TYPE,
+									AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
 						} else {
 							Log.d("runnerdevice", "account getWhoAmi2 ");
 
@@ -235,18 +257,107 @@ public class MainActivity extends FragmentActivity {
 						Account[] accounts = mAccountManager
 								.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
 						if (accounts == null) {
-							Log.d("runnerdevice","no has any accounts account ");
+							Log.d("runnerdevice",
+									"no has any accounts account ");
 						}
 						if (accounts.length == 0) {
 							// Toast.makeText(getApplicationContext(),
 							// "no has account");
 							Log.d("runnerdevice", "no has account ");
-							addNewAccount(AccountGeneral.ACCOUNT_TYPE,AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+							addNewAccount(AccountGeneral.ACCOUNT_TYPE,
+									AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
 						} else {
 							Log.d("runnerdevice", "account getWhoAmi2 ");
 
 							saveSync(accounts[0]);
 						}
+					}
+				});
+
+		findViewById(R.id.btnUpdateContentProvider).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						txt_pressure.setText("get content provider  : ... ");
+						SimpleDateFormat dateFormat = new SimpleDateFormat(
+								"yyyy/MM/dd HH:mm:ss");
+						Calendar cal = Calendar.getInstance();
+						txt_time.setText("time  : " + cal.getTime());
+						Account account = mAccountManager
+								.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
+						String userName = account.name;
+						String userId = mAccountManager.getUserData(account,
+								AccountGeneral.PARAM_USER_ID);
+
+						String firstName = txt_firstName.getText().toString();
+						String lastName = txt_lastName.getText().toString();
+
+						// Add a new student record
+						ContentValues values = new ContentValues();
+
+						values.put(DatabaseHelper.KEY_FIRSTNAME, firstName);
+						values.put(DatabaseHelper.KEY_LASTNAME, lastName);
+						String url = "content://" + ShippingContract.AUTHORITY
+								+ "/" + ShippingContentProvider.PATH_USER + "/"
+								+ userId;
+						Uri currentUser = Uri.parse(url);
+
+						getContentResolver().update(currentUser, values, null,null);
+						
+						txt_firstName.setText(firstName);
+						txt_lastName.setText(lastName);
+						String fullname = firstName + " " + lastName;
+						txt_pressure
+								.setText(" content provider XX update XX  :  "
+										+ fullname);
+
+					}
+				});
+
+		findViewById(R.id.btnContentProvider).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						txt_pressure.setText("update content provider  : ... ");
+						SimpleDateFormat dateFormat = new SimpleDateFormat(
+								"yyyy/MM/dd HH:mm:ss");
+						Calendar cal = Calendar.getInstance();
+						txt_time.setText("time  : " + cal.getTime());
+						Account[] accounts = mAccountManager
+								.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+						if (accounts == null) {
+							Log.d("runnerdevice",
+									"no has any accounts account ");
+						}
+						Account account = mAccountManager
+								.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
+						String userName = account.name;
+						String userId = mAccountManager.getUserData(account,
+								AccountGeneral.PARAM_USER_ID);
+
+						String url = "content://" + ShippingContract.AUTHORITY
+								+ "/" + ShippingContentProvider.PATH_USER + "/"
+								+ userId;
+
+						Uri currentUser = Uri.parse(url);
+						Cursor cursor = managedQuery(currentUser, null, null,
+								null, "name");
+
+						if (cursor != null && cursor.getCount() > 0) {
+
+							cursor.moveToFirst();
+							String firstName = cursor.getString(cursor
+									.getColumnIndex(DatabaseHelper.KEY_FIRSTNAME));
+							String lastName = cursor.getString(cursor
+									.getColumnIndex(DatabaseHelper.KEY_LASTNAME));
+
+							txt_firstName.setText(firstName);
+							txt_lastName.setText(lastName);
+							String fullname = firstName + " __ " + lastName;
+							txt_pressure.setText(" content provider data  :  "
+									+ fullname);
+						}
+
 					}
 				});
 	}

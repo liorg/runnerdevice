@@ -151,6 +151,7 @@ public class WhoAmIActivity extends FragmentActivity {
 						}
 					}
 				});
+		
 		findViewById(R.id.btnsendasyncwhoami).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
@@ -208,6 +209,8 @@ public class WhoAmIActivity extends FragmentActivity {
 						}
 					}
 				});
+	
+		
 	}
 
 	@Override

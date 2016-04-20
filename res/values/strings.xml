@@ -3,31 +3,26 @@
     <string name="app_name">עדכון משלוח</string>
     <string name="action_settings">הגדרות</string>
     <string name="hello_world">רנר שליחויות</string>
-	 <string name="version">גרסא 1.0.0.0</string>
-	 <string name="about">מערכת עבור השליח</string>
-	  <string name="label">Runner</string>
+    <string name="version">גרסא 1.0.0.0</string>
+    <string name="about">מערכת עבור השליח</string>
+    <string name="label">Runner</string>
+    <string name="provider_name">Shipping</string>
+    <string name="signup_title">Create new account</string>
+    <string name="login_label">Log in</string>
 
-  
-	 
-  <string name="signup_title">Create new account</string>
-  
- <string name="login_label">Log in</string>
-	 
-	 
     <string-array name="titles">
-           <item>משלוחים שלי</item>
-           <item>עלינו</item>
-           <item>פרטי שליח</item>
+        <item>משלוחים שלי</item>
+        <item>עלינו</item>
+        <item>פרטי שליח</item>
     </string-array>
 
     <array name="icons">
         <item>@drawable/ic_delivery</item>
         <item>@drawable/ic_communities</item>
-       
         <item>@drawable/ic_people</item>
     </array>
 
-     <string name="error_config">Please set the %1$s constant and recompile the app.</string>
+    <string name="error_config">Please set the %1$s constant and recompile the app.</string>
     <string name="already_registered">Device is already registered on server.</string>
     <string name="gcm_registered">From GCM: device successfully registered!</string>
     <string name="gcm_unregistered">From GCM: device successfully unregistered!</string>
@@ -44,10 +39,10 @@
     <string name="options_unregister">Unregister</string>
     <string name="options_clear">Clear</string>
     <string name="options_exit">Exit</string>
-    
     <string name="crash_toast_text">אופס קרסתי, תן לנו לטפל בבעיה</string>
     <string name="crash_dialog_title">עדכון הזמנה קרס</string>
-	<string name="crash_dialog_text">נוצרה שגיאה, על ידי לחיצה על OK תן לנו לטפל בבעיה</string>
-	<string name="crash_dialog_comment_prompt">You might add your comments about the problem below:</string>
-	<string name="crash_dialog_ok_toast">,usv rcv !</string>
+    <string name="crash_dialog_text">נוצרה שגיאה, על ידי לחיצה על OK תן לנו לטפל בבעיה</string>
+    <string name="crash_dialog_comment_prompt">You might add your comments about the problem below:</string>
+    <string name="crash_dialog_ok_toast">,usv rcv !</string>
+
 </resources>

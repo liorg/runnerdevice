@@ -1,0 +1,7 @@
+<sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
+              android:contentAuthority="il.co.runnerdevice.shipping.provider"
+              android:accountType="il.co.runnerdevice.account"
+              android:userVisible="true"
+              android:allowParallelSyncs="false"
+              android:isAlwaysSyncable="false"
+              android:supportsUploading="true"/>
