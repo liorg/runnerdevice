@@ -64,6 +64,7 @@ public final class CommonUtilities {
 		context.sendBroadcast(intent);
 	}
 
+	
 	public static boolean IsValidToken(String eDate) {
 		Log.d(APP_NAME, TAGC + "> IsValidToken ");
 		Date local = new Date();

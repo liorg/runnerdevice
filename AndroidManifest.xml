@@ -67,7 +67,16 @@
                   android:exported="false"/>
                   
                   
- <activity android:name=".Controllers.MainActivity" android:exported="true"
+ <!--activity android:name=".Controllers.MainActivity" android:exported="true"
+         android:label="@string/app_name" >
+            <intent-filter>    
+       <action android:name="android.intent.action.MAIN" />
+       <category android:name="android.intent.category.LAUNCHER" />
+      
+      </intent-filter>
+        </activity-->
+        
+         <activity android:name=".Controllers.MainAsync" android:exported="true"
          android:label="@string/app_name" >
             <intent-filter>    
        <action android:name="android.intent.action.MAIN" />
@@ -143,8 +152,8 @@
         
       
          <!-- Sync adapter related service -->
-        <!--service
-                android:name=".Dblocal.TvShowsSyncService"
+        <service
+                android:name=".Sync.ShipSyncService"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -152,7 +161,7 @@
             <meta-data
                     android:name="android.content.SyncAdapter"
                     android:resource="@xml/sync_adapter" />
-        </service-->
+        </service>
         
     </application>
 </manifest>

@@ -12,6 +12,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncResult;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -22,10 +23,14 @@ import android.util.Log;
 import il.co.runnerdevice.Api.ServiceGenerator;
 import il.co.runnerdevice.Api.ShipApi;
 import il.co.runnerdevice.Authentication.AccountGeneral;
+import il.co.runnerdevice.Dblocal.DatabaseHelper;
+import il.co.runnerdevice.Dblocal.ShippingContentProvider;
+import il.co.runnerdevice.Dblocal.ShippingContract;
 import il.co.runnerdevice.Pojo.ItemSyncGeneric;
 import il.co.runnerdevice.Pojo.ResponseItem;
 import il.co.runnerdevice.Pojo.WhoAmI;
 import il.co.runnerdevice.Utils.CommonUtilities;
+import il.co.runnerdevice.Utils.SyncStateRecord;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -75,11 +80,47 @@ public class ShipSyncAdapter extends AbstractThreadedSyncAdapter {
         
        
         try {
+        	
+        	Log.d(CommonUtilities.APP_NAME, TAG + "> Get local");
+        	//todo
+        	
+            Log.d(CommonUtilities.APP_NAME, TAG + "> Get remote ");
         	Call<ResponseItem<ItemSyncGeneric<WhoAmI>>> getMyChangeDetail =userApiService.GetWhoAmISync(userId, deviceId, clientId);
-             
-            Log.d(CommonUtilities.APP_NAME, TAG + "> Get remote TV Shows");
-            // Get shows from remote
-            Log.d(CommonUtilities.APP_NAME, TAG + "> Get local TV Shows");
+        	Response<ResponseItem<ItemSyncGeneric<WhoAmI>>> response=getMyChangeDetail.execute();
+        	if(response.isSuccessful() && response.body()!=null && response.body().isIsAuthenticated())
+        	{
+        		ResponseItem<ItemSyncGeneric<WhoAmI>> body=response.body();
+        		if(!body.isIsError())
+        		{
+        			ItemSyncGeneric<WhoAmI> model=body.getModel();
+        			if(model.getSyncObject()!=null && model.getSyncStateRecord()==SyncStateRecord.Change || model.getSyncStateRecord()==SyncStateRecord.Add)
+        			{
+        				WhoAmI whoamiChanged=model.getSyncObject();
+        				
+        				// update record
+						ContentValues values = new ContentValues();
+						
+						values.put(DatabaseHelper.KEY_FIRSTNAME, whoamiChanged.getFirstName());
+						values.put(DatabaseHelper.KEY_LASTNAME, whoamiChanged.getLastName());
+						String url = "content://" + ShippingContract.AUTHORITY+ "/" + ShippingContentProvider.PATH_USER + "/"+ userId;
+						Uri currentUser = Uri.parse(url);
+
+						provider.update(currentUser, values, null,null);
+        				//has change
+        				//provider.update(url, values, selection, selectionArgs)
+        			}
+        		}
+        		else{
+        			//todo
+        			//syncResult.
+        		}
+        		
+        	}
+        	else{
+        		//todo
+    			//syncResult.
+        	}
+            
             Log.d(CommonUtilities.APP_NAME, TAG + "> Finished.");
 
         }
