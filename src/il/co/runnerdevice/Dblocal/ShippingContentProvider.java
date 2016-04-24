@@ -18,13 +18,17 @@ public class ShippingContentProvider extends ContentProvider {
 	public static final int PATH_USERTOKEN = 100;
 	public static final String PATH_FOR_USER_ID = "user/*";
 	public static final int PATH_FOR_USERID_TOKEN = 200;
-
+	public static final String PATH_USER_CHANGED = "userChanged";
+	public static final int PATH_FOR_USERCHANGED_TOKEN = 300;
+	
 	// Uri Matcher for the content provider
 	private static UriMatcher buildUriMatcher() {
 		final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
 		final String authority = ShippingContract.AUTHORITY;
 		matcher.addURI(authority, PATH_USER, PATH_USERTOKEN);
 		matcher.addURI(authority, PATH_FOR_USER_ID, PATH_FOR_USERID_TOKEN);
+		matcher.addURI(authority, PATH_USER_CHANGED, PATH_FOR_USERCHANGED_TOKEN);
+		
 		return matcher;
 	}
 
@@ -56,6 +60,9 @@ public class ShippingContentProvider extends ContentProvider {
 			builder.setTables(DatabaseHelper.TABLE_USER);
 			return builder.query(db, projection, selection, selectionArgs,
 					null, null, sortOrder);
+		}
+		case PATH_FOR_USERCHANGED_TOKEN: {
+			return dbHelper.getChangedDataUser();
 		}
 		case PATH_FOR_USERID_TOKEN: {
 			String userid = uri.getLastPathSegment();

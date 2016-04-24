@@ -158,6 +158,51 @@ public class MainAsync extends FragmentActivity {
             }
         });
         
+        findViewById(R.id.btnsendsyncwhoamiSync).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            	Account account = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
+                if (account == null) {
+                	txt_pressure.setText("Please connect first");
+                    return;
+                }
+                String userName = account.name;
+				String userId = mAccountManager.getUserData(account,
+						AccountGeneral.PARAM_USER_ID);
+
+				String firstName = txt_firstName.getText().toString();
+				String lastName = txt_lastName.getText().toString();
+
+				WhoAmI who = mUserService.UpdateUser(userId, firstName,
+						lastName, userName);
+				if (who == null)
+					txt_pressure.setText("no has sql  data  :"
+							+ userName + "(" + userId + ")");
+
+				else {
+					txt_firstName.setText(who.getFirstName());
+					txt_lastName.setText(who.getLastName());
+					String fullname = who.getFirstName() + " "
+							+ who.getLastName();
+
+					txt_pressure.setText("sql  update data  :  "
+							+ fullname);
+					boolean syncToNetwork=true;
+					String url = "content://" + ShippingContract.AUTHORITY
+							+ "/" + ShippingContentProvider.PATH_USER + "/"
+							+ userId;
+					Uri currentUser = Uri.parse(url);
+					//ContentResolver.notifyChange
+					getContentResolver().notifyChange(currentUser, null, syncToNetwork);
+				}
+				
+             //   Bundle bundle = new Bundle();
+               // bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true); // Performing a sync no matter if it's off
+                //bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true); // Performing a sync no matter if it's off
+                //ContentResolver.requestSync(account, ShippingContract.AUTHORITY, bundle);
+            }
+        });
+        
 		findViewById(R.id.btnGetDataSync).setOnClickListener(
 				new View.OnClickListener() {
 					@Override

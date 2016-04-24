@@ -2,6 +2,9 @@ package il.co.runnerdevice.Dblocal;
 
 
  
+import il.co.runnerdevice.Utils.SyncStateRecord;
+import il.co.runnerdevice.Utils.SyncStatus;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,6 +82,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
        ContentValues contentValues = new ContentValues();
        contentValues.put(KEY_FIRSTNAME, firstname);
        contentValues.put(KEY_LASTNAME, lastname);
+       contentValues.put(KEY_SyncStateRecord, SyncStateRecord.Change);
+       contentValues.put(KEY_SyncStatus, SyncStatus.SyncFromClient);
+       
+       
        db.update(TABLE_USER, contentValues, KEY_USERID+" = ?", new String[]{userid});
        return true;
     }
@@ -98,6 +105,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
        // Cursor res =  db.rawQuery( "select * from "+TABLE_USER+" where "+KEY_USERID+"='"+userid+"'", null );
         Cursor res= db.rawQuery("SELECT * FROM " + TABLE_USER + " WHERE " + KEY_USERID + "=?",
                 new String[] { String.valueOf(userid) });
+        return res;
+     }
+    public Cursor getChangedDataUser(){
+        SQLiteDatabase db = this.getReadableDatabase();
+       // Cursor res =  db.rawQuery( "select * from "+TABLE_USER+" where "+KEY_USERID+"='"+userid+"'", null );
+        Cursor res= db.rawQuery("SELECT * FROM " + TABLE_USER + " WHERE " + KEY_SyncStateRecord + "=?",
+                new String[] { String.valueOf(SyncStateRecord.Change) });
         return res;
      }
 }
