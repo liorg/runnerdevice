@@ -166,7 +166,7 @@ public class ShipSyncAdapter extends AbstractThreadedSyncAdapter {
 			}
 
 			Log.d(CommonUtilities.APP_NAME, TAG + "> Finished.");
-
+//
 		}
 
 		catch (Exception e) {
