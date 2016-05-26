@@ -136,11 +136,7 @@ public class MainAsync extends FragmentActivity {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Calendar cal = Calendar.getInstance();
 			txt_time.setText("begin time  : " + cal.getTime());
-		
-			//Account account = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
-		
-			
-			
+	
 		}
 		
         findViewById(R.id.btnSync).setOnClickListener(new View.OnClickListener() {

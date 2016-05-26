@@ -28,11 +28,14 @@ public class UserDao implements Serializable {
     public static WhoAmI fromCursor(Cursor curUser) 
     {
     	WhoAmI whoami= new WhoAmI();
-    	whoami.setFirstName(curUser.getString(curUser.getColumnIndex(DatabaseHelper.KEY_FIRSTNAME)));
-    	whoami.setLastName( curUser.getString(curUser.getColumnIndex(DatabaseHelper.KEY_LASTNAME)));
-    	whoami.setUserId( curUser.getString(curUser.getColumnIndex(DatabaseHelper.KEY_USERID)));
-    	whoami.setUserName(curUser.getString(curUser.getColumnIndex(DatabaseHelper.KEY_TAG_USERNAME)));
-       return whoami;
+    	//if (cursor!=null && cursor.getCount() > 0) {
+	    	//	cursor.moveToFirst();
+	    	whoami.setFirstName(curUser.getString(curUser.getColumnIndex(DatabaseHelper.KEY_FIRSTNAME)));
+	    	whoami.setLastName( curUser.getString(curUser.getColumnIndex(DatabaseHelper.KEY_LASTNAME)));
+	    	whoami.setUserId( curUser.getString(curUser.getColumnIndex(DatabaseHelper.KEY_USERID)));
+	    	whoami.setUserName(curUser.getString(curUser.getColumnIndex(DatabaseHelper.KEY_TAG_USERNAME)));
+	       return whoami;
+       //}
     }
     
     /**
@@ -42,11 +45,14 @@ public class UserDao implements Serializable {
      *
      * @return
      */
-    public ContentValues getContentValues() {
-        ContentValues values = new ContentValues();
-   //     values.put(DatabaseHelper.KEY_FIRSTNAME, name);
-   //     values.put(TvShowsDbHelper.TVSHOWS_COL_YEAR, year);
-        return values;
+    public ContentValues getContentValues(WhoAmI whoami) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseHelper.KEY_USERID, whoami.getUserId().toString());
+        contentValues.put(DatabaseHelper.KEY_FIRSTNAME, whoami.getFirstName());
+        contentValues.put(DatabaseHelper.KEY_LASTNAME, whoami.getLastName());
+        contentValues.put(DatabaseHelper.KEY_TAG_USERNAME, whoami.getUserName());
+  
+        return contentValues;
     }
 
    

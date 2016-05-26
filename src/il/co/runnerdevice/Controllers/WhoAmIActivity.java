@@ -15,6 +15,7 @@ import il.co.runnerdevice.Utils.CommonUtilities;
 import il.co.runnerdevice.Utils.ObjectTableCode;
 import il.co.runnerdevice.Utils.SyncStateRecord;
 import il.co.runnerdevice.Utils.SyncStatus;
+import il.co.runnerdevice.Utils.UtilConvertor;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -233,7 +234,9 @@ public class WhoAmIActivity extends FragmentActivity {
 		ItemSyncGeneric<WhoAmI> itemSync = new ItemSyncGeneric<WhoAmI>();
 		itemSync.setClientId(AccountGeneral.CLIENT_ID);
 		itemSync.setDeviceId("");
-		itemSync.setLastUpdateRecord("2015-01-01");
+		String dateToStr=UtilConvertor.ConvertDateToISO(new java.util.Date(2011, 4, 1, 16, 02));
+		
+		itemSync.setLastUpdateRecord(dateToStr);
 		itemSync.setSyncStateRecord(ObjectTableCode.USER);
 		itemSync.setSyncStatus(SyncStatus.SyncFromClient);
 		itemSync.setSyncStateRecord(SyncStateRecord.Change);

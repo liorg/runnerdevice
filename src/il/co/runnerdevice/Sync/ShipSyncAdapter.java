@@ -32,9 +32,12 @@ import il.co.runnerdevice.Pojo.ResponseItem;
 import il.co.runnerdevice.Pojo.WhoAmI;
 import il.co.runnerdevice.Utils.CommonUtilities;
 import il.co.runnerdevice.Utils.SyncStateRecord;
+import il.co.runnerdevice.Utils.UtilConvertor;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -56,6 +59,7 @@ public class ShipSyncAdapter extends AbstractThreadedSyncAdapter {
 		mAccountManager = AccountManager.get(context);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onPerformSync(Account account, Bundle extras, String authority,
 			ContentProviderClient provider, SyncResult syncResult) {
@@ -95,13 +99,20 @@ public class ShipSyncAdapter extends AbstractThreadedSyncAdapter {
 
 			ArrayList localUsers = new ArrayList();
 			Cursor curUser = provider.query(userUri, null, null, null, null);
-			while (curUser.moveToNext()) {
-				localUsers.add(UserDao.fromCursor(curUser));
-			}
+			
+			curUser.moveToFirst();
+			WhoAmI whoami=UserDao.fromCursor(curUser);
+			
 			curUser.close();
+			ItemSyncGeneric<WhoAmI> bodyUpdate=new ItemSyncGeneric<WhoAmI>();
 			
+			String dateToStr=UtilConvertor.ConvertDateToISO(new Date(2014,8,15));
 			
-
+			bodyUpdate.setLastUpdateRecord(dateToStr);
+			bodyUpdate.setSyncObject(whoami);
+			Response<ResponseItem<ItemSyncGeneric<WhoAmI>>> updateOnRemote = userApiService.UpdateWhoAmISync(bodyUpdate).execute();
+			Log.d(CommonUtilities.APP_NAME, TAG + "> Get is updateOnRemote.isSuccessful()=" +updateOnRemote.isSuccessful());
+			
 			Log.d(CommonUtilities.APP_NAME, TAG + "> Get remote ");
 			Call<ResponseItem<ItemSyncGeneric<WhoAmI>>> getMyChangeDetail = userApiService
 					.GetWhoAmISync(userId, deviceId, clientId);
