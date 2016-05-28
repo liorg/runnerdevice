@@ -106,7 +106,7 @@ public class ShipSyncAdapter extends AbstractThreadedSyncAdapter {
 			curUser.close();
 			ItemSyncGeneric<WhoAmI> bodyUpdate=new ItemSyncGeneric<WhoAmI>();
 			
-			String dateToStr=UtilConvertor.ConvertDateToISO(new Date(2014,8,15));
+			String dateToStr=UtilConvertor.ConvertDateToISO(new Date());
 			
 			bodyUpdate.setLastUpdateRecord(dateToStr);
 			bodyUpdate.setSyncObject(whoami);
