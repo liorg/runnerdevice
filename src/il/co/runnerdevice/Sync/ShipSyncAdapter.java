@@ -106,10 +106,12 @@ public class ShipSyncAdapter extends AbstractThreadedSyncAdapter {
 			curUser.close();
 			ItemSyncGeneric<WhoAmI> bodyUpdate=new ItemSyncGeneric<WhoAmI>();
 			
+			
 			String dateToStr=UtilConvertor.ConvertDateToISO(new Date());
 			
 			bodyUpdate.setLastUpdateRecord(dateToStr);
 			bodyUpdate.setSyncObject(whoami);
+			
 			Response<ResponseItem<ItemSyncGeneric<WhoAmI>>> updateOnRemote = userApiService.UpdateWhoAmISync(bodyUpdate).execute();
 			Log.d(CommonUtilities.APP_NAME, TAG + "> Get is updateOnRemote.isSuccessful()=" +updateOnRemote.isSuccessful());
 			
